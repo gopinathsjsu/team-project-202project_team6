@@ -1,12 +1,15 @@
-import dotenv from 'dotenv'
-import express from "express"
-import cors from "cors"
-import mongoose from "mongoose"
+const dotenv  = require('dotenv')
+const express  = require("express")
+const cors = require("cors")
+const mongoose = require("mongoose")
 dotenv.config()
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded())
 app.use(cors())
+const bcrypt = require("bcrypt")
+
+// const people = []
 
 mongoose.connect(process.env.DB_CONNECT, {
     useNewUrlParser: true,
@@ -14,48 +17,25 @@ mongoose.connect(process.env.DB_CONNECT, {
 }, () => {
     console.log("DB connected")
 })
-const userSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    password: String
-})
 
-const User = new mongoose.model("User", userSchema)
+// // Routes
+// app.get("/login", (req, res) => {
+//     res.json(people)
+// })
+// app.post("/login", async (req, res) => {
+//     try{
+//         const salt = await bcrypt.genSalt()
+//         const hashedPassword = await bcrypt.hash(req.body.password, salt)
+//         const person = {name: req.body.name, password: hashedPassword}
+//         people.push(person)
+//         res.status(201).send()
+//     }catch{
+//         res.status(500).send()
+//     }
+// })
+app.use('/', require('./routes/userLogin'))
+app.use('/signup', require('./routes/userLogin'))
 
-// Routes
-app.post("/login", (req, res) => {
-    res.send("My API LOGIN")
-})
-
-app.post("/register", (req, res) => {
-    console.log("Inside register", req.body)
-    const { name, email, password } = req.body
-    User.findOne({ email: email }, (err, user) => {
-        if (user) {
-            console.log("user already exists")
-            res.send({ message: "User already registered" })
-
-        } else {
-            const user = new User({
-                name: name,
-                email: email,
-                password: password
-            })
-            console.log(user)
-            user.save(err => {
-                if (err) {
-                    res.send(err)
-                    console.log("ERROR")
-                } else {
-                    res.send({ message: "Successfully Registered" })
-                    console.log("registered")
-                }
-            })
-        }
-    })
-
-})
-
-app.listen(9002, () => {
-    console.log("BE started at port 9002")
+app.listen(3000, () => {
+    console.log("BE started at port 3000")
 })

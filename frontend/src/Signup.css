@@ -1,28 +1,28 @@
-.login {
+.signup {
     display: flex;
     align-items: center;
     flex-direction: column;
 }
-.log {
+.sign {
     display: flex;
     flex-direction: column;
     height: auto;
     width: 500px;
 }
-.login > img{
+.sign > img{
     height: 300px
 }
-.login__logo {
+.signup__logo {
     width: auto;
     text-align: center;
 }
 
-/* .login_wc{
+/* .signup_wc{
     display: flex;
     align-items: left;
     flex-direction: column;
 } */
-/* .login_wc > h4 {
+/* .signup_wc > h4 {
     font-size: 30px;
     line-height: 36px;
     font-family: Helvetica,sans-serif;
@@ -30,23 +30,23 @@
     margin-top: 70px;
 } */
 
-.login__container {
+.signup__container {
     display: flex !important;
     align-items: left;
     flex-direction: column;
 }
-.login__container > p {
+.signup__container > p {
     font-size: 16px !important;
     line-height: 24px !important;
     margin-bottom: 8px !important;
     font-weight: inherit !important;
 }
-.login__container > form {
+.signup__container > form {
     display:flex !important;
     flex-direction:column !important;
 }
 
-.login__container > form > input {
+.signup__container > form > input {
     font-size: 16px !important;
     line-height: 24px !important;
     height: 48px !important;
@@ -55,7 +55,7 @@
     margin-bottom: 16px;
 }
 
-.login__button {
+.signup__button {
     font-size: 16px !important;
     line-height: 24px !important;
     height: 48px !important;
@@ -65,36 +65,37 @@
     font-weight: 500;
 }
 
-.login__text{
+.signup__text{
     display: flex;
     justify-content:center;
     flex-direction: row;
 }
 
-.login__create{
+.signup__create{
     color: rgb(75, 193, 240);
     margin-left: 2px;
 }
 
-.login_ul {
+.signup_ul {
     text-decoration: none;
 }
 
-.log_input:focus {
+.sign_input:focus {
     border: 1px solid black;
 }
+
 .icon{
     display: flex;
     flex-direction: column;
     align-items: center;
     
-}
-.text{
+  }
+  .text{
     color: rgb(75, 193, 240);
     font-weight: bold;
     font-size: 40px;
-}
+  }
   
-.icon_class > .MuiSvgIcon-root{
+  .icon_class > .MuiSvgIcon-root{
     color: rgb(75, 193, 240);
-}
+  }
