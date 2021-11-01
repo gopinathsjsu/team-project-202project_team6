@@ -1,5 +1,5 @@
-const dotenv  = require('dotenv')
-const express  = require("express")
+const dotenv = require('dotenv')
+const express = require("express")
 const cors = require("cors")
 const mongoose = require("mongoose")
 dotenv.config()
@@ -33,9 +33,11 @@ mongoose.connect(process.env.DB_CONNECT, {
 //         res.status(500).send()
 //     }
 // })
+
 app.use('/', require('./routes/userLogin'))
 app.use('/signup', require('./routes/userLogin'))
+app.use('/lgoin', require('./routes/userLogin'))
 
-app.listen(3000, () => {
+app.listen(8000, () => {
     console.log("BE started at port 3000")
 })
