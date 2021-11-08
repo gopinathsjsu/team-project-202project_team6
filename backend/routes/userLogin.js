@@ -1,6 +1,8 @@
 const express = require("express")
 const router = express.Router()
 const User = require('../models/user')
+const Employee = require('../models/employee')
+const isEmployee = 1
 
 router.post('/', async (req, res) => {
     console.log("here")
@@ -35,10 +37,19 @@ router.post("/signup", (req, res) => {
 
 })
 
+
+
 router.post('/login', async (req, res) => {
     const { email, password } = req.body
-    let doc = await User.findOne({ email: email })
-    console.log(doc)
+    
+    if(isEmployee === 1){
+        let doc = await Employee.findOne({ email: email })
+        console.log(doc)
+    }else{
+        let doc = await User.findOne({ email: email })
+        console.log(doc)
+    }
+    
     if (doc.password == password) {
         res.send({
             success: 1,

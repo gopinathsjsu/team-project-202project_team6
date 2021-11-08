@@ -13,12 +13,13 @@ content-type: application/json
 
 ###
 
-POST http://localhost:3000/signup 
+POST http://localhost:8000/signup 
 content-type: application/json
 
 {
-    "name": "test",
-    "email": "test@gmail.com",
-    "password": "password"
+    "name": "ishan",
+    "email": "ishan@gmail.com",
+    "password": "ishan"
+    
 }
 

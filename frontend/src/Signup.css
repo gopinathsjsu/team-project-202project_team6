@@ -1,3 +1,11 @@
+.container{
+    display: flex;
+    
+}
+.welcome{
+    padding: 20px;
+}
+
 .signup {
     display: flex;
     align-items: center;
