@@ -4,8 +4,6 @@ import axios from 'axios';
 import "./Signup.css";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import Welcome from "./Welcome";
-// import { useDispatch } from 'react-redux';
-// import { loginSuccess } from '../app/actions';
 
 function Signup() {
     const history = useHistory()

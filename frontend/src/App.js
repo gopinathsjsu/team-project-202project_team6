@@ -6,6 +6,7 @@ import Signup from "./Signup"
 import Dashboard from "./Dashboard"
 import Homepage from "./Homepage"
 import Welcome from "./Welcome"
+import AddFlights from "./AddFlight"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
 
@@ -24,8 +25,8 @@ function App() {
           <Route path='/dashboard'>
             <Dashboard />
           </Route>
-          <Route path='/'> 
-            <Login/>
+          <Route path='/'>
+            <AddFlights />
           </Route>
         </Switch>
       </div>

@@ -1,6 +1,6 @@
 .welcome{
     position: relative;
-    text-align: center;
+    /* text-align: center; */
     color: black;
 }
 .welcome > img{
@@ -10,11 +10,13 @@
 }
 
 .top-center {
-    font-size: 70px;
+   
+    font-size:;
     text-decoration: underline;
     position: absolute;
-    top: 100px;
-    left: 630px;
+    top: 10%;
+    left: 40%;
+    
   }
   
  

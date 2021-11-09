@@ -36,7 +36,7 @@ mongoose.connect(process.env.DB_CONNECT, {
 
 app.use('/', require('./routes/userLogin'))
 app.use('/signup', require('./routes/userLogin'))
-app.use('/lgoin', require('./routes/userLogin'))
+app.use('/login', require('./routes/userLogin'))
 
 app.listen(8000, () => {
     console.log("BE started at port 3000")
