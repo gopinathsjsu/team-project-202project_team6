@@ -12,20 +12,23 @@ router.post("/signup", (req, res) => {
     console.log("Inside register", req.body)
     const { name, email, password } = req.body
     User.findOne({ email: email }, (err, user) => {
+        if (err) {
+            console.log(err)
+        }
         if (user) {
             console.log("user already exists")
             res.send({ message: "User already exists" })
 
         } else {
-            const user = new User({
+            const newUser = new User({
                 name: name,
                 email: email,
                 password: password
             })
-            console.log(user)
-            user.save(err => {
+            console.log(newUser)
+            newUser.save(err => {
                 if (err) {
-                    console.log("ERROR")
+                    console.log(err)
                     res.send(err)
                 } else {
                     console.log("registered")

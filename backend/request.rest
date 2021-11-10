@@ -3,12 +3,12 @@ GET http://localhost:3000/login
 ###
 
 
-POST http://localhost:3000/login 
+POST http://localhost:8000/login 
 content-type: application/json
 
 {
-    "email": "tim@gmail.com",
-    "password": "tim"
+    "email": "heli@gmail.com",
+    "password": "heli"
 }
 
 ###
