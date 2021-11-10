@@ -45,14 +45,15 @@ router.post("/signup", (req, res) => {
 router.post('/login', async (req, res) => {
     const { email, password } = req.body
 
-    if (isEmployee === 1) {
-        let doc = await Employee.findOne({ email: email })
-        console.log(doc)
-    } else {
-        let doc = await User.findOne({ email: email })
-        console.log(doc)
-    }
-
+    // if (isEmployee === 1) {
+    //     let doc = await Employee.findOne({ email: email })
+    //     console.log(doc)
+    // } else {
+    //     let doc = await User.findOne({ email: email })
+    //     console.log(doc)
+    // }
+    let doc = await User.findOne({ email: email })
+    console.log(doc)
     if (doc.password == password) {
         res.send({
             success: 1,

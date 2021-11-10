@@ -4,13 +4,13 @@ const flight = new mongoose.Schema({
     name: String,
     departure: {
         airport: String,
-        timestamp: Timestamp,
+        // timestamp: Timestamp,
         city: String,
 
     },
     arrival: {
         airport: String,
-        timestamp: Timestamp,
+        // timestamp: Timestamp,
         city: String,
     },
     // seatStatus:{

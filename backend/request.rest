@@ -1,19 +1,16 @@
-GET http://localhost:3000/login 
-
-###
 
 
-POST http://localhost:8000/login 
+POST http://localhost:8000/userLogin/login 
 content-type: application/json
 
 {
-    "email": "heli@gmail.com",
-    "password": "heli"
+    "email": "ishan@gmail.com",
+    "password": "ishan"
 }
 
 ###
 
-POST http://localhost:8000/signup 
+POST http://localhost:8000/userLogin/signup 
 content-type: application/json
 
 {
@@ -21,5 +18,26 @@ content-type: application/json
     "email": "ishan@gmail.com",
     "password": "ishan"
     
+}
+
+###
+
+POST http://localhost:8000/employeeFunctions/addFlight 
+content-type: application/json
+
+{
+    "name": "UTD2",
+    "departure":{
+                    "airport": "BOM1",
+                    "time":,
+                    "city": "Mumbai"
+                },
+    "arrival":{
+                    "airport": "DEL1",
+                    "city": "Delhi"
+                },
+    "price": 3000,
+    "duration": 30,
+    "status": "Scheduled"
 }
 
