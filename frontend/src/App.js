@@ -4,6 +4,7 @@ import SwipeableTemporaryDrawer from "./slider";
 import Login from "./Login";
 import Signup from "./Signup";
 import Dashboard from "./Dashboard";
+import Checkout from "./Checkout";
 import Homepage from "./Homepage";
 import Welcome from "./Welcome";
 import AddFlights from "./AddFlight";
@@ -23,6 +24,9 @@ function App() {
 					</Route>
 					<Route path="/dashboard">
 						<Dashboard />
+					</Route>
+					<Route path="/checkout">
+						<Checkout />
 					</Route>
 					<Route path="/">
 						<AddFlights />

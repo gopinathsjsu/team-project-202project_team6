@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Container, Button, Form, Row, Col, Card } from "react-bootstrap";
 import { server_IP, server_PORT } from "./config/serverConfig.js";
 
@@ -26,7 +27,7 @@ function Dashboard() {
 			// 	payload
 			// );
 			// console.log(response);
-			// setFlights(response.flights);
+			// setFlights(response.data.flights);
 			setFlights([
 				{
 					id: "243424242",
@@ -72,7 +73,7 @@ function Dashboard() {
 					<Card.Header>{row.name}</Card.Header>
 					<Card.Body>
 						<Row>
-							<Col xs={11}>
+							<Col xs={10}>
 								<Card.Title>
 									{row.departure.timestamp}&emsp;-&emsp;
 									{row.arrival.timestamp}
@@ -83,7 +84,7 @@ function Dashboard() {
 									{row.arrival.airport}
 								</Card.Text>
 							</Col>
-							<Col xs={1}>
+							<Col xs={2} className="px-5">
 								<Row className="my-2">
 									<Col xs={4}></Col>
 									<Col xs={8}>
@@ -91,9 +92,11 @@ function Dashboard() {
 									</Col>
 								</Row>
 								<Row>
-									<Button id={row.id} variant="dark">
-										Book now
-									</Button>
+									<Link to={`/checkout/?id=${row.id}`}>
+										<Button id={row.id} variant="dark">
+											Book now
+										</Button>
+									</Link>
 								</Row>
 							</Col>
 						</Row>
