@@ -1,22 +1,18 @@
 const mongoose = require("mongoose")
 
 const flight = new mongoose.Schema({
-    name: String,
+    flightName: String,
     departure: {
         airport: String,
-        // timestamp: Timestamp,
-        city: String,
+        timestamp: String,
+        city: String
 
     },
     arrival: {
         airport: String,
-        // timestamp: Timestamp,
-        city: String,
+        timestamp: String,
+        city: String
     },
-    // seatStatus:{
-    //     seatNumber: String,
-    //     isTaken: String
-    // },
     price: Number,
     duration: Number,
     status: String 

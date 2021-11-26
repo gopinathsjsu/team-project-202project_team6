@@ -8,10 +8,18 @@ router.post('/', async (req, res) => {
     console.log("here in this router")
 })
 
-router.post("/addFlight", (req, res) => {
+router.post("/addNewFlight", (req, res) => {
     console.log("Inside register", req.body)
-    const { name, departure, arrival, price, duration, status } = req.body
-    Flight.findOne({ name: name }, (err, flight) => {
+    const fname=req.body.flightName
+    const fdeparture=req.body.departure
+    const farrival=req.body.arrival
+    const fprice=req.body.price
+    const fstatus=req.body.status
+    const fduration=req.body.duration
+
+    console.log(fname)
+
+    Flight.findOne({ flightName: fname }, (err, flight) => {
         if (err) {
             console.log(err)
         }
@@ -21,18 +29,20 @@ router.post("/addFlight", (req, res) => {
 
         } else {
             const newFlight = new Flight({
-                name: name,
+                flightName: fname,
                 departure: {
-                    airport: departure.airport,
-                    city: departure.city
+                    airport: fdeparture.airport,
+                    timestamp: fdeparture.timestamp,
+                    city: fdeparture.city
                 },
                 arrival: {
-                    airport: arrival.airport,
-                    city: arrival.city
+                    airport: farrival.airport,
+                    timestamp: farrival.timestamp,
+                    city: farrival.city
                 },
-                price: price,
-                duration: duration,
-                status: status
+                price: fprice,
+                duration: fduration,
+                status: fstatus
             })
             console.log(newFlight)
             newFlight.save(err => {

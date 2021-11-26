@@ -17,7 +17,7 @@ mongoose.connect(process.env.DB_CONNECT, {
 }, () => {
     console.log("DB connected")
 })
-
+console.log("Hello")
 // // Routes
 // app.get("/login", (req, res) => {
 //     res.json(people)
@@ -34,7 +34,7 @@ mongoose.connect(process.env.DB_CONNECT, {
 //     }
 // })
 
-app.use("/employeeFunctions",require("./routes/employeeFunctions"))
+app.use("/employeeDashboard",require("./routes/employeeDashboard"))
 app.use('/userLogin', require('./routes/userLogin'))
 
 

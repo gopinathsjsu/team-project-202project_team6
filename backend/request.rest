@@ -22,11 +22,11 @@ content-type: application/json
 
 ###
 
-POST http://localhost:8000/employeeFunctions/addFlight 
+POST http://localhost:8000/employeeFunctions/addNewFlight 
 content-type: application/json
 
 {
-    "name": "UTD2",
+    "flightName": "UTD2",
     "departure":{
                     "airport": "BOM1",
                     "time":,

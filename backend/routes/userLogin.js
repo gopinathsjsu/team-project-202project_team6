@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
 router.post("/signup", (req, res) => {
     console.log("Inside register", req.body)
     const { name, email, password } = req.body
-    User.findOne({ email: email }, (err, user) => {
+    User.findOne({ emailId: email }, (err, user) => {
         if (err) {
             console.log(err)
         }
@@ -22,7 +22,7 @@ router.post("/signup", (req, res) => {
         } else {
             const newUser = new User({
                 name: name,
-                email: email,
+                emailId: email,
                 password: password
             })
             console.log(newUser)
