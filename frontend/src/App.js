@@ -8,6 +8,7 @@ import Checkout from "./Checkout";
 import Homepage from "./Homepage";
 import Welcome from "./Welcome";
 import AddFlights from "./AddFlight";
+import EmployeeLogin from "./EmployeeLogin"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -24,6 +25,9 @@ function App() {
 					</Route>
 					<Route path="/dashboard">
 						<Dashboard />
+					</Route>
+					<Route path="/employeeLogin">
+						<EmployeeLogin/>
 					</Route>
 					<Route path="/checkout">
 						<Checkout />

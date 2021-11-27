@@ -72,10 +72,18 @@ function Signup() {
                                 <button type="submit" className="signup__button">Next</button>
                             </form>
                             <div className="signup__text">
-                                <p>Already a customer?</p>
-                                <Link to="/login" className="signup_ul">
-                                    <p className="signup__create">Sign in</p>
-                                </Link>
+                                <div className="line_one">
+                                    <p>Already a customer?</p>
+                                    <Link to="/login" className="signup_ul">
+                                        <p className="signup__create">Sign in</p>
+                                    </Link>
+                                </div>
+                                <div className="line_two">
+                                    <p>Are you an employee?</p>
+                                    <Link to="/employeeLogin" className="signup_ul">
+                                        <p className="signup__create">click here</p>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                         <p>{message}</p>

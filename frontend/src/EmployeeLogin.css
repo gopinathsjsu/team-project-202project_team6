@@ -76,8 +76,8 @@
 
 .login__text{
     display: flex;
-    flex-direction: column;
     justify-content:center;
+    flex-direction: row;
 }
 
 .login__create{
@@ -98,7 +98,6 @@
     align-items: center;
     
 }
-
 .text{
     color: rgb(75, 193, 240);
     font-weight: bold;

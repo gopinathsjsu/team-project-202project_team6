@@ -73,9 +73,19 @@
     font-weight: 500;
 }
 
-.signup__text{
+.signup__text {
     display: flex;
     justify-content:center;
+    flex-direction: column; 
+}
+.line_one{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+.line_two{
+    display: flex;
+    justify-content: center;
     flex-direction: row;
 }
 
