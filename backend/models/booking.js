@@ -9,12 +9,13 @@ const booking = new mongoose.Schema({
     flightName: String,
     departure: {
         airport: String,
-        time: Date,
+        time: String,
+        city: String
     },
     arrival: {
         airport: String,
-        time: Date,
-
+        time: String,
+        city: String
     },
     seatNumber: String,
     price: Number,
