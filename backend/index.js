@@ -36,7 +36,8 @@ console.log("Hello")
 
 app.use("/employeeDashboard",require("./routes/employeeDashboard"))
 app.use('/userLogin', require('./routes/userLogin'))
-
+app.use('/dashboard', require('./routes/dashboard'))
+app.use('/checkout', require('./routes/checkout'))
 
 app.listen(8000, () => {
     console.log("BE started at port 8000")

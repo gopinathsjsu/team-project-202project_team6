@@ -17,7 +17,7 @@ router.post("/addNewFlight", (req, res) => {
     const fstatus=req.body.status
     const fduration=req.body.duration
 
-    console.log(fname)
+    // console.log(fname)
 
     Flight.findOne({ flightName: fname }, (err, flight) => {
         if (err) {

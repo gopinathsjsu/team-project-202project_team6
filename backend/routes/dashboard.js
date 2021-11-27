@@ -8,16 +8,36 @@ router.post('/', async (req, res) => {
     console.log("here in this router")
 })
 
-router.get("/", async (req, res) => {
+router.get("/",(req, res) => {
     console.log("Inside register", req.body)
-    // const { name, departure, arrival, price, duration, status } = req.body
-    const flights = await Flight.find({status: {$or: [{$ne : "complete"},{$ne : "cancelled"}]}  }, (err, flight) => {
+    Flight.find({status: {$nin: ["complete","cancelled"]}}, (err, flight) => {
         if (err) {
             console.log(err)
         }
-        if (flights) {
+        if (flight.length) {
             console.log("Flights are available")
-            res.send(flights)
+            res.send(flight)
+
+        } else {
+            console.log("No flights are available")
+            res.send("No flights are available to display")
+            }
+        })
+    })
+
+router.get("/searchFlights",(req, res) => {
+    console.log("Inside register", req.body)
+    const to=req.body.to
+    const from=req.body.from
+    const date=req.body.date
+
+    Flight.find({'departure.airport': from, 'arrival.airport': to, 'departure.timestamp': date}, (err, flight) => {
+        if (err) {
+            console.log(err)
+        }
+        if (flight.length) {
+            console.log("Flights are available")
+            res.send(flight)
 
         } else {
             console.log("No flights are available")
