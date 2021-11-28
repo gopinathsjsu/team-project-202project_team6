@@ -41,3 +41,8 @@ content-type: application/json
     "status": "Scheduled"
 }
 
+###
+
+
+GET http://localhost:8000/employeeDashboard/fetchAllFlights
+content-type: application/json

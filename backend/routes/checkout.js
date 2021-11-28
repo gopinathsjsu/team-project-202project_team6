@@ -1,52 +1,46 @@
-const express = require("express")
-const router = express.Router()
-const User = require('../models/user')
-const Employee = require('../models/employee')
-const Flight = require('../models/flight')
-const Booking = require('../models/booking')
+const express = require("express");
+const router = express.Router();
+const User = require("../models/user");
+const Employee = require("../models/employee");
+const Flight = require("../models/flight");
+const Booking = require("../models/booking");
 
-router.post('/', async (req, res) => {
-    console.log("here in this router")
-})
+router.post("/", async (req, res) => {
+	console.log("here in this router");
+});
 
 router.get("/flightDetails", (req, res) => {
-    console.log("Inside register", req.body)
-    const fid = req.body.id
-    Flight.findOne({ _id: fid }, (err, flight) => {
-        if (err) {
-            console.log(err)
-        }
-        if (flight) {
-            console.log("Flight found")
-            res.send(flight)
-
-        } else {
-            console.log("Flight not found")
-            res.send("Flight not found!!!!")
-        }
-    })
-
-})
+	console.log("Inside register", req.body);
+	const fid = req.body.id;
+	Flight.findOne({ _id: fid }, (err, flight) => {
+		if (err) {
+			console.log(err);
+		}
+		if (flight) {
+			console.log("Flight found");
+			res.send(flight);
+		} else {
+			console.log("Flight not found");
+			res.send("Flight not found!!!!");
+		}
+	});
+});
 
 router.get("/getAvailableMileagePoints", (req, res) => {
-    const customerId = req.body.id
-    User.findOne({ _id: customerId }, {"mileagePoints": 1}, (err, user) => {
-        if (err) {
-            console.log(err)
-        }
-        if (user) {
-            console.log("User Found")
-            res.send(user)
-
-        } else {
-            console.log("User not found")
-            res.send("User not found!")
-        }
-    })
-
-})
-
-
+	const customerId = req.body.id;
+	User.findOne({ _id: customerId }, { mileagePoints: 1 }, (err, user) => {
+		if (err) {
+			console.log(err);
+		}
+		if (user) {
+			console.log("User Found");
+			res.send(user);
+		} else {
+			console.log("User not found");
+			res.send("User not found!");
+		}
+	});
+});
 
 router.post("/confirmFlightBooking", async (req, res) => {
     console.log("Inside register", req.body)
@@ -107,7 +101,6 @@ router.post("/confirmFlightBooking", async (req, res) => {
         
 
     })
-
-})
+});
 
 module.exports = router;

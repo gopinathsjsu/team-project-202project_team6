@@ -24,48 +24,47 @@ function EmployeeDashboard() {
 
 	console.log(newFlight);
 	const fetchAllFlights = async () => {
-		// 	const response = await axios.get(
-		// 		`http:${server_IP}:${server_PORT}/fetchAllFlights`
-		// 	);
-		// 	console.log(response);
-		// 	setFlights(response.data.flights);
-		// };
-		setFlights([
-			{
-				id: "243424242",
-				name: "UA 295",
-				duration: "5H 17M",
-				departure: {
-					city: "San Francisco",
-					airport: "SFO",
-					timestamp: "08:30 AM",
-				},
-				arrival: {
-					city: "New York",
-					airport: "NYC",
-					timestamp: "04:48 PM",
-				},
-				price: 99,
-				status: "Scheduled",
-			},
-			{
-				id: "848239042",
-				name: "UA 520",
-				duration: "6H 02M",
-				departure: {
-					city: "San Francisco",
-					airport: "SFO",
-					timestamp: "06:35 AM",
-				},
-				arrival: {
-					city: "New York",
-					airport: "NYC",
-					timestamp: "02:52 PM",
-				},
-				price: 119,
-				status: "Cancelled",
-			},
-		]);
+		const response = await axios.get(
+			`http://${server_IP}:${server_PORT}/employeeDashboard/fetchAllFlights`
+		);
+		console.log(response);
+		setFlights(response);
+		// setFlights([
+		// 	{
+		// 		id: "243424242",
+		// 		name: "UA 295",
+		// 		duration: "5H 17M",
+		// 		departure: {
+		// 			city: "San Francisco",
+		// 			airport: "SFO",
+		// 			timestamp: "08:30 AM",
+		// 		},
+		// 		arrival: {
+		// 			city: "New York",
+		// 			airport: "NYC",
+		// 			timestamp: "04:48 PM",
+		// 		},
+		// 		price: 99,
+		// 		status: "Scheduled",
+		// 	},
+		// 	{
+		// 		id: "848239042",
+		// 		name: "UA 520",
+		// 		duration: "6H 02M",
+		// 		departure: {
+		// 			city: "San Francisco",
+		// 			airport: "SFO",
+		// 			timestamp: "06:35 AM",
+		// 		},
+		// 		arrival: {
+		// 			city: "New York",
+		// 			airport: "NYC",
+		// 			timestamp: "02:52 PM",
+		// 		},
+		// 		price: 119,
+		// 		status: "Cancelled",
+		// 	},
+		// ]);
 	};
 
 	useEffect(() => {
@@ -74,16 +73,16 @@ function EmployeeDashboard() {
 	const updateFlightPrice = async (e) => {
 		try {
 			const payload = {
-				flightId: e.target.id,
+				id: e.target.id,
 				newPrice: newPrice,
 			};
 			console.log(payload);
-			// const response = await axios.put(
-			// 	`http:${server_IP}:${server_PORT}/updateFlightPrice`,
-			// 	payload
-			// );
-			// console.log(response);
-			// fetchAllFlights();
+			const response = await axios.put(
+				`http://${server_IP}:${server_PORT}/employeeDashboard/updateFlightPrice`,
+				payload
+			);
+			console.log(response);
+			fetchAllFlights();
 		} catch (err) {
 			console.error(err);
 		}
@@ -92,11 +91,11 @@ function EmployeeDashboard() {
 		console.log(e.target.text);
 		try {
 			const payload = {
-				flightId: e.target.id,
+				id: e.target.id,
 				newStatus: e.target.text.toLowerCase(),
 			};
 			const response = await axios.put(
-				`http:${server_IP}:${server_PORT}/updateFlightStatus`,
+				`http://${server_IP}:${server_PORT}/employeeDashboard/updateFlightStatus`,
 				payload
 			);
 			console.log(response);
@@ -109,9 +108,10 @@ function EmployeeDashboard() {
 			...newFlight,
 			status: "scheduled",
 		};
+		console.log(payload);
 		try {
 			const response = await axios.post(
-				`http:${server_IP}:${server_PORT}/addNewFlight`,
+				`http://${server_IP}:${server_PORT}/employeeDashboard/addNewFlight`,
 				payload
 			);
 			setShowModal(!showModal);
@@ -231,6 +231,17 @@ function EmployeeDashboard() {
 							</Modal.Title>
 						</Modal.Header>
 						<Modal.Body>
+							<Form.Group className="mb-3">
+								<Form.Label>Flight Name</Form.Label>
+								<Form.Control
+									onChange={(e) =>
+										setNewFlight({
+											...newFlight,
+											flightName: e.target.value,
+										})
+									}
+								/>
+							</Form.Group>
 							<Row className="my-3">
 								<Form.Group as={Col} className="mb-3">
 									<Form.Label>Duration</Form.Label>

@@ -28,7 +28,10 @@ function Login() {
 					`http://${server_IP}:${server_PORT}/userLogin/login`,
 					user
 				)
-				.then((res) => console.log(res))
+				.then((res) => {
+					console.log("Logged in", res);
+					localStorage.setItem("customerId", res.data.id);
+				})
 				.catch((err) => {
 					console.log("err", err);
 				});
