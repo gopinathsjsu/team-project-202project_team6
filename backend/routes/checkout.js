@@ -28,6 +28,26 @@ router.get("/flightDetails", (req, res) => {
 
 })
 
+router.get("/getAvailableMileagePoints", (req, res) => {
+    //console.log("Inside register", req.body)
+    const customerId = req.body.id
+    User.findOne({ _id: customerId }, {"mileagePoints": 1}, (err, user) => {
+        if (err) {
+            console.log(err)
+        }
+        if (user) {
+            console.log("User Found")
+            res.send(user)
+
+        } else {
+            console.log("User not found")
+            res.send("User not found!")
+        }
+    })
+
+})
+
+
 router.post("/confirmFlightBooking", async (req, res) => {
     console.log("Inside register", req.body)
     const cid = req.body.cid
