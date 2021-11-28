@@ -11,7 +11,7 @@ function Dashboard() {
 	const [dateOfTravel, setDateOfTravel] = useState("");
 	const [flights, setFlights] = useState([]);
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log("Inside handle submit");
 		console.log(depAirport, arrAirport, dateOfTravel);
@@ -22,46 +22,46 @@ function Dashboard() {
 				date: dateOfTravel,
 			};
 			console.log(payload);
-			// const response = await axios.post(
-			// 	`http://${server_IP}:${server_PORT}/searchRestaurants`,
-			// 	payload
-			// );
-			// console.log(response);
-			// setFlights(response.data.flights);
-			setFlights([
-				{
-					id: "243424242",
-					name: "UA 295",
-					duration: "5H 17M",
-					departure: {
-						city: "San Francisco",
-						airport: "SFO",
-						timestamp: "08:30 AM",
-					},
-					arrival: {
-						city: "New York",
-						airport: "NYC",
-						timestamp: "04:48 PM",
-					},
-					price: 99,
-				},
-				{
-					id: "848239042",
-					name: "UA 520",
-					duration: "6H 02M",
-					departure: {
-						city: "San Francisco",
-						airport: "SFO",
-						timestamp: "06:35 AM",
-					},
-					arrival: {
-						city: "New York",
-						airport: "NYC",
-						timestamp: "02:52 PM",
-					},
-					price: 119,
-				},
-			]);
+			const response = await axios.post(
+				`http://${server_IP}:${server_PORT}/dashboard/searchFlights`,
+				payload
+			);
+			console.log(response);
+			setFlights(response.data.flights);
+			// setFlights([
+			// 	{
+			// 		id: "243424242",
+			// 		name: "UA 295",
+			// 		duration: "5H 17M",
+			// 		departure: {
+			// 			city: "San Francisco",
+			// 			airport: "SFO",
+			// 			timestamp: "08:30 AM",
+			// 		},
+			// 		arrival: {
+			// 			city: "New York",
+			// 			airport: "NYC",
+			// 			timestamp: "04:48 PM",
+			// 		},
+			// 		price: 99,
+			// 	},
+			// 	{
+			// 		id: "848239042",
+			// 		name: "UA 520",
+			// 		duration: "6H 02M",
+			// 		departure: {
+			// 			city: "San Francisco",
+			// 			airport: "SFO",
+			// 			timestamp: "06:35 AM",
+			// 		},
+			// 		arrival: {
+			// 			city: "New York",
+			// 			airport: "NYC",
+			// 			timestamp: "02:52 PM",
+			// 		},
+			// 		price: 119,
+			// 	},
+			// ]);
 		} catch (err) {
 			console.error(err);
 		}

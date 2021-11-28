@@ -60,13 +60,15 @@ function Checkout() {
 		};
 		const fetchMileagePoints = async () => {
 			try {
-				// const response = await axios.get(
-				// 	`http:${server_IP}:${server_PORT}/getAvailableMileagePoints/${customer_ID}`
-				// );
-				// console.log(response.data);
-				// if (response.data["mileagePoints"]) {
-				// 	setMileagePoints(response.data["mileagePoints"]);
-				// }
+				const response = await axios.get(
+					`http:${server_IP}:${server_PORT}/checkout/getAvailableMileagePoints/${localStorage.getItem(
+						"customerId"
+					)}`
+				);
+				console.log(response.data);
+				if (response.data["mileagePoints"]) {
+					setMileagePoints(response.data["mileagePoints"]);
+				}
 			} catch (err) {
 				console.error(err);
 			}
