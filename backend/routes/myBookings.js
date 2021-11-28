@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
 
 router.get("/fetchAllBookings",(req, res) => {
     console.log("Inside register", req.body)
-    const cid = req.body.cid
+    const cid = req.query.cid
     Booking.find({"customerId": cid},(err, booking) => {
         if (err) {
             console.log(err)
@@ -48,7 +48,7 @@ router.put("/cancelBooking", async (req, res) => {
     const bookingId = req.body.bid
     const flightId = req.body.fid
     const oldSeatNumber= req.body.oldSeatNumber
-    const newBookingStatus= req.body.newBookingStatus
+    const newBookingStatus= "cancelled"
 
     await Booking.updateOne({_id: bookingId},{bookingStatus:newBookingStatus},{useFindAndModify:false});
     await Flight.updateOne({_id: flightId},{$push: {seatsAvailable: oldSeatNumber}});
