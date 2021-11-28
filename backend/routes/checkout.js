@@ -50,7 +50,7 @@ router.post("/confirmFlightBooking", async (req, res) => {
 	const plname = req.body.passengerLastName;
 	const seatNumber = req.body.seatNumber;
 	const mileagePointsUsed = req.body.mileagePointsUsed;
-	const bookingStatus = "booked";
+	const bookingStatus = req.body.bookingStatus;
 
 	await Flight.updateOne(
 		{ _id: fid },
@@ -70,16 +70,18 @@ router.post("/confirmFlightBooking", async (req, res) => {
 				flightName: flight.flightName,
 				departure: {
 					airport: flight.departure.airport,
-					time: flight.departure.timestamp,
+					date: flight.departure.date,
+					time: flight.departure.time,
 					city: flight.departure.city,
 				},
 				arrival: {
 					airport: flight.arrival.airport,
-					time: flight.arrival.timestamp,
+					date: flight.arrival.date,
+					time: flight.arrival.time,
 					city: flight.arrival.city,
 				},
 				seatNumber: seatNumber,
-				price: req.body.price,
+				price: flight.price,
 				flightStatus: flight.status,
 				mileagePointsUsed: mileagePointsUsed,
 				bookingStatus: bookingStatus,

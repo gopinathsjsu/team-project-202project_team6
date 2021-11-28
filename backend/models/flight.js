@@ -4,17 +4,19 @@ const flight = new mongoose.Schema({
     flightName: String,
     departure: {
         airport: String,
-        timestamp: String,
+        date: String,
+        time:String,
         city: String
 
     },
     arrival: {
         airport: String,
-        timestamp: String,
+        date: String,
+        time:String,
         city: String
     },
     price: Number,
-    duration: Number,
+    duration: String,
     status: String, 
     seatsAvailable: {
         type: Array,

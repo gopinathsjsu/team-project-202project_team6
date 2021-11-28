@@ -28,7 +28,7 @@ router.get("/", (req, res) => {
 	);
 });
 
-router.post("/searchFlights", (req, res) => {
+router.get("/searchFlights", (req, res) => {
 	console.log("Inside register", req.body);
 	const to = req.body.to;
 	const from = req.body.from;
@@ -38,7 +38,7 @@ router.post("/searchFlights", (req, res) => {
 		{
 			"departure.airport": from,
 			"arrival.airport": to,
-			"departure.timestamp": date,
+			"departure.date": date,
 		},
 		(err, flight) => {
 			if (err) {
