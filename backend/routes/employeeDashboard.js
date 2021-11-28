@@ -61,4 +61,64 @@ router.post("/addNewFlight", (req, res) => {
 
 })
 
+
+router.post("/updateFlightStatus", (req, res) => {
+    const flightId = req.body.id
+    const newStatus=req.body.newStatus
+
+    Flight.updateOne({_id: flightId}, {"status": newStatus}, { useFindAndModify: false }, (err, flight) => {
+        if (err) {
+            console.log(err)
+        }
+        if (flight) {
+            console.log("Flight updated successfully")
+            res.send(flight)
+
+        } else {
+            console.log("Flight not found")
+            res.send("Cannot update Status. Flight not found")
+        }
+    })
+
+})
+
+
+router.get("/fetchAllFlights",(req, res) => {
+    //console.log("Inside register", req.body)
+    Flight.find({},(err, flight) => {
+        if (err) {
+            console.log(err)
+        }
+        if (flight.length) {
+            console.log("Flight info fetched successfully")
+            res.send(flight)
+
+        } else {
+            console.log("Cannot find flight details")
+            res.send("Cannot find flight details")
+            }
+        })
+    })
+
+
+router.post("/updateFlightPrice", (req, res) => {
+    const flightId = req.body.id
+    const newPrice=req.body.newPrice
+
+    Flight.updateOne({_id: flightId}, {"price": newPrice}, { useFindAndModify: false }, (err, flight) => {
+        if (err) {
+            console.log(err)
+        }
+        if (flight) {
+            console.log("Flight price updated successfully")
+            res.send(flight)
+
+        } else {
+            console.log("Flight not found")
+            res.send("Cannot update Price. Flight not found")
+        }
+    })
+
+})
+
 module.exports = router;

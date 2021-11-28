@@ -8,7 +8,9 @@ import Checkout from "./Checkout";
 import Homepage from "./Homepage";
 import Welcome from "./Welcome";
 import AddFlights from "./AddFlight";
-import EmployeeLogin from "./EmployeeLogin"
+import EmployeeLogin from "./EmployeeLogin";
+import EmployeeDashboard from "./EmployeeDashboard";
+import MyBookings from "./MyBookings";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -27,10 +29,16 @@ function App() {
 						<Dashboard />
 					</Route>
 					<Route path="/employeeLogin">
-						<EmployeeLogin/>
+						<EmployeeLogin />
 					</Route>
 					<Route path="/checkout">
 						<Checkout />
+					</Route>
+					<Route path="/employeeDashboard">
+						<EmployeeDashboard />
+					</Route>
+					<Route path="/myBookings">
+						<MyBookings />
 					</Route>
 					<Route path="/">
 						<AddFlights />
