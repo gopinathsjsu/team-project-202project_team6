@@ -100,8 +100,8 @@ function Dashboard() {
 						<Row>
 							<Col xs={10}>
 								<Card.Title>
-									{row.departure.timestamp}&emsp;-&emsp;
-									{row.arrival.timestamp}
+									{row.departure.time}&emsp;-&emsp;
+									{row.arrival.time}
 								</Card.Title>
 								<Card.Text>
 									{row.departure.airport}

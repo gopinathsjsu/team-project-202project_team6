@@ -7,6 +7,7 @@ import { server_IP, server_PORT } from "./config/serverConfig.js";
 function Checkout() {
 	// const history = useHistory();
 	console.log("Rendering");
+	const history = useHistory();
 	const search = useLocation().search;
 	const flightId = new URLSearchParams(search).get("id");
 	const [flightDetails, setFlightDetails] = useState({
@@ -102,7 +103,7 @@ function Checkout() {
 				payload
 			);
 			console.log(response);
-			// history.push("/dashboard");
+			history.push("/dashboard");
 		} catch (err) {
 			console.error(err);
 		}

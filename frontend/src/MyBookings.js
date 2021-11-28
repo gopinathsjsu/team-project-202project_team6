@@ -19,6 +19,7 @@ function MyBookings() {
 
 	const [bookings, setBookings] = useState([]);
 	const [modifySeats, setModifySeats] = useState(false);
+	const [availableSeats, setAvailableSeats] = useState({});
 
 	const fetchAllBookings = async () => {
 		const response = await axios.get(
@@ -27,7 +28,17 @@ function MyBookings() {
 			)}`
 		);
 		console.log(response);
-		setBookings(response.data.bookings);
+		let freeSeats = {};
+		const flightIds = [...new Set(response.data.map((x) => x.flightId))];
+		for (let i = 0; i < flightIds.length; i++) {
+			const res = await axios.get(
+				`http://${server_IP}:${server_PORT}/checkout/flightDetails?id=${flightIds[i]}`
+			);
+			freeSeats[flightIds[i]] = res.data.seatsAvailable;
+		}
+		console.log(flightIds);
+		setAvailableSeats(freeSeats);
+		setBookings(response.data);
 		// setBookings([
 		// 	{
 		// 		bookingId: "1",
@@ -85,8 +96,9 @@ function MyBookings() {
 				flightId: e.target.parentNode.id,
 				seatNumber: e.target.title,
 			};
+			console.log("Sending payload to cancel booking", payload);
 			const response = await axios.put(
-				`http://${server_IP}:${server_PORT}/cancelBooking`,
+				`http://${server_IP}:${server_PORT}/myBookings/cancelBooking`,
 				payload
 			);
 			console.log(response);
@@ -103,8 +115,9 @@ function MyBookings() {
 			oldSeatNumber: e.target.parentNode.title,
 		};
 		try {
+			console.log("updating booking: ", payload);
 			const response = await axios.put(
-				`http://${server_IP}:${server_IP}/myBookings/updateBooking`,
+				`http://${server_IP}:${server_PORT}/myBookings/updateBooking`,
 				payload
 			);
 			console.log(response);
@@ -114,29 +127,30 @@ function MyBookings() {
 		}
 		// console.log("bookingId", e.target.parent.id);
 	};
-	const getAvailableSeats = async (flightId) => {
-		try {
-			const response = await axios.get(
-				`http://${server_IP}:${server_PORT}/flightDetails?id=${flightId}`
-			);
-			console.log(response);
-			return response.data.seats;
-			return ["1A", "2A", "3A", "3B", "3C"];
-		} catch (err) {
-			console.error(err);
-		}
-	};
+	// const getAvailableSeats = async (flightId) => {
+	// 	try {
+	// 		const response = await axios.get(
+	// 			`http://${server_IP}:${server_PORT}/checkout/flightDetails?id=${flightId}`
+	// 		);
+	// 		console.log("Available seats", response.data.seatsAvailable);
+	// 		return response.data.seatsAvailable;
+	// 		// return ["1A", "2A", "3A", "3B", "3C"];
+	// 	} catch (err) {
+	// 		console.error(err);
+	// 	}
+	// };
 	const renderModifySeats = (flightId) => {
 		const createOption = (seat) => {
 			return <option value={seat}>{seat}</option>;
 		};
-		const availableSeats = getAvailableSeats(flightId);
-		console.log("available seats", availableSeats);
+		// const availableSeats = getAvailableSeats(flightId);
 		return (
-			<Form.Select id={flightId} onChange={updateBooking}>
-				<option>Select seat</option>
-				{availableSeats.map(createOption)}
-			</Form.Select>
+			<>
+				<Form.Select id={flightId} onChange={updateBooking}>
+					<option>Select seat</option>
+					{availableSeats[flightId].map(createOption)}
+				</Form.Select>
+			</>
 		);
 	};
 	const createBookingRow = (row) => {
@@ -146,20 +160,23 @@ function MyBookings() {
 					<Card.Header>
 						<Row>
 							<Col xs={2}>{row.flightName}</Col>
-							<Col xs={2}>Booking ID: #{row.bookingId}</Col>
+							<Col xs={2}>Booking ID: #{row._id.substr(-3)}</Col>
 							<Col
 								xs={2}
 							>{`${row.passengerFirstName} ${row.passengerLastName}`}</Col>
 							<Col xs={4}>Seat Number: {row.seatNumber}</Col>
-							<Col xs={2}>{row.status}</Col>
+							<Col xs={2}>
+								{row.bookingStatus.charAt(0).toUpperCase() +
+									row.bookingStatus.slice(1)}
+							</Col>
 						</Row>
 					</Card.Header>
 					<Card.Body>
 						<Row>
 							<Col xs={5}>
 								<Card.Title>
-									{row.departure.timestamp}&emsp;-&emsp;
-									{row.arrival.timestamp}
+									{row.departure.time}&emsp;-&emsp;
+									{row.arrival.time}
 								</Card.Title>
 								<Card.Text>
 									{row.departure.airport}
@@ -179,10 +196,7 @@ function MyBookings() {
 											Change seats
 										</Button>
 									</Col>
-									<Col
-										id={row.bookingId}
-										title={row.seatNumber}
-									>
+									<Col id={row._id} title={row.seatNumber}>
 										{modifySeats
 											? renderModifySeats(row.flightId)
 											: ""}
@@ -190,11 +204,13 @@ function MyBookings() {
 								</Row>
 							</Col>
 							<Col xs={3} className="px-5" id={row.flightId}>
-								{row.status.toLowerCase() === "scheduled" ? (
+								{row.bookingStatus.toLowerCase() ===
+								"booked" ? (
 									<Button
 										variant="dark"
 										onClick={cancelBooking}
-										id={row.bookingId}
+										id={row._id}
+										title={row.seatNumber}
 									>
 										Cancel Booking
 									</Button>
@@ -202,8 +218,7 @@ function MyBookings() {
 									<Button
 										variant="dark"
 										onClick={cancelBooking}
-										id={row.bookingId}
-										title={row.seatNumber}
+										id={row._id}
 										disabled
 									>
 										Cancel Booking

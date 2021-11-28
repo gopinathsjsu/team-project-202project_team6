@@ -28,7 +28,7 @@ function EmployeeDashboard() {
 			`http://${server_IP}:${server_PORT}/employeeDashboard/fetchAllFlights`
 		);
 		console.log(response);
-		setFlights(response);
+		setFlights(response.data);
 		// setFlights([
 		// 	{
 		// 		id: "243424242",
@@ -136,7 +136,7 @@ function EmployeeDashboard() {
 					</Col>
 					<Col>
 						<Button
-							id={row.id}
+							id={row._id}
 							variant="dark"
 							onClick={updateFlightPrice}
 						>
@@ -161,7 +161,7 @@ function EmployeeDashboard() {
 									)
 									.map((x) => {
 										return (
-											<Dropdown.Item id={row.id}>
+											<Dropdown.Item id={row._id}>
 												{x}
 											</Dropdown.Item>
 										);
@@ -179,16 +179,19 @@ function EmployeeDashboard() {
 				<Card>
 					<Card.Header>
 						<Row>
-							<Col xs={10}>{row.name}</Col>
-							<Col xs={2}>{row.status}</Col>
+							<Col xs={10}>{row.flightName}</Col>
+							<Col xs={2}>
+								{row.status.charAt(0).toUpperCase() +
+									row.status.slice(1)}
+							</Col>
 						</Row>
 					</Card.Header>
 					<Card.Body>
 						<Row>
 							<Col xs={6}>
 								<Card.Title>
-									{row.departure.timestamp}&emsp;-&emsp;
-									{row.arrival.timestamp}
+									{row.departure.time}&emsp;-&emsp;
+									{row.arrival.time}
 								</Card.Title>
 								<Card.Text>
 									{row.departure.airport}

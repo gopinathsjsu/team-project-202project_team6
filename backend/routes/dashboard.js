@@ -28,12 +28,11 @@ router.get("/", (req, res) => {
 	);
 });
 
-router.get("/searchFlights", (req, res) => {
+router.post("/searchFlights", (req, res) => {
 	console.log("Inside register", req.body);
 	const to = req.body.to;
 	const from = req.body.from;
 	const date = req.body.date;
-
 	Flight.find(
 		{
 			"departure.airport": from,
