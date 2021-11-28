@@ -18,11 +18,7 @@ function MyBookings() {
 	console.log("Rendering");
 
 	const [flights, setFlights] = useState([]);
-	const [newPrice, setNewPrice] = useState(0);
-	const [showModal, setShowModal] = useState(false);
-	const [newFlight, setNewFlight] = useState({});
 
-	console.log(newFlight);
 	const fetchAllFlights = async () => {
 		// 	const response = await axios.get(
 		// 		`http:${server_IP}:${server_PORT}/fetchAllFlights`
@@ -71,32 +67,15 @@ function MyBookings() {
 	useEffect(() => {
 		fetchAllFlights();
 	}, []);
-	const updateFlightPrice = async (e) => {
-		try {
-			const payload = {
-				flightId: e.target.id,
-				newPrice: newPrice,
-			};
-			console.log(payload);
-			// const response = await axios.put(
-			// 	`http:${server_IP}:${server_PORT}/updateFlightPrice`,
-			// 	payload
-			// );
-			// console.log(response);
-			// fetchAllFlights();
-		} catch (err) {
-			console.error(err);
-		}
-	};
-	const handleUpdateFlightStatus = async (e) => {
+
+	const cancelBooking = async (e) => {
 		console.log(e.target.text);
 		try {
 			const payload = {
-				flightId: e.target.id,
-				newStatus: e.target.text.toLowerCase(),
+				bookingId: e.target.id,
 			};
 			const response = await axios.put(
-				`http:${server_IP}:${server_PORT}/updateFlightStatus`,
+				`http:${server_IP}:${server_PORT}/cancelBooking`,
 				payload
 			);
 			console.log(response);
@@ -104,75 +83,7 @@ function MyBookings() {
 			console.error(err);
 		}
 	};
-	const submitNewFlight = async () => {
-		const payload = {
-			...newFlight,
-			status: "scheduled",
-		};
-		try {
-			const response = await axios.post(
-				`http:${server_IP}:${server_PORT}/addNewFlight`,
-				payload
-			);
-			setShowModal(!showModal);
-			fetchAllFlights();
-		} catch (err) {
-			console.error(err);
-		}
-	};
-	const renderEmployeeButtons = (row) => {
-		return (
-			<Col xs={6} className="px-5">
-				<Row className="my-2">
-					<Col>
-						<InputGroup>
-							<InputGroup.Text>$</InputGroup.Text>
-							<Form.Control
-								type="text"
-								defaultValue={row.price}
-								onChange={(e) => setNewPrice(e.target.value)}
-							></Form.Control>
-						</InputGroup>
-					</Col>
-					<Col>
-						<Button
-							id={row.id}
-							variant="dark"
-							onClick={updateFlightPrice}
-						>
-							Update price
-						</Button>
-					</Col>
-					<Col>
-						<Dropdown>
-							<Dropdown.Toggle variant="dark">
-								Update status
-							</Dropdown.Toggle>
 
-							<Dropdown.Menu
-								variant="dark"
-								onClick={handleUpdateFlightStatus}
-							>
-								{["Scheduled", "Cancelled", "Completed"]
-									.filter(
-										(x) =>
-											x.toLowerCase() !==
-											row.status.toLowerCase()
-									)
-									.map((x) => {
-										return (
-											<Dropdown.Item id={row.id}>
-												{x}
-											</Dropdown.Item>
-										);
-									})}
-							</Dropdown.Menu>
-						</Dropdown>
-					</Col>
-				</Row>
-			</Col>
-		);
-	};
 	const createFlightRow = (row) => {
 		return (
 			<Row className="m-4">
@@ -196,9 +107,10 @@ function MyBookings() {
 									{row.arrival.airport}
 								</Card.Text>
 							</Col>
-							{row.status.toLowerCase() === "scheduled"
-								? renderEmployeeButtons(row)
-								: ""}
+							<Col xs={3}>Pick new seat</Col>
+							<Col xs={3} className="px-5">
+								<Button variant="dark">Cancel Booking</Button>
+							</Col>
 						</Row>
 					</Card.Body>
 				</Card>
@@ -209,151 +121,8 @@ function MyBookings() {
 		<div className="m-5">
 			<Container style={{ display: "flex", flexDirection: "column" }}>
 				<Row className="display-6 mt-3 mb-1">
-					<Col xs={8}>Employee Dashboard</Col>
-					<Col xs={4}>
-						<Button
-							variant="success"
-							onClick={() => setShowModal(!showModal)}
-						>
-							Add new flight
-						</Button>
-					</Col>
-					<Modal
-						show={showModal}
-						onHide={() => setShowModal(!showModal)}
-						backdrop="static"
-						keyboard={false}
-						centered
-					>
-						<Modal.Header closeButton>
-							<Modal.Title>
-								Enter details of the new flight
-							</Modal.Title>
-						</Modal.Header>
-						<Modal.Body>
-							<Row className="my-3">
-								<Form.Group as={Col} className="mb-3">
-									<Form.Label>Duration</Form.Label>
-									<Form.Control
-										onChange={(e) =>
-											setNewFlight({
-												...newFlight,
-												duration: e.target.value,
-											})
-										}
-									/>
-								</Form.Group>
-								<Form.Group as={Col} className="mb-3">
-									<Form.Label>Price</Form.Label>
-									<Form.Control
-										onChange={(e) =>
-											setNewFlight({
-												...newFlight,
-												price: parseInt(e.target.value),
-											})
-										}
-									/>
-								</Form.Group>
-							</Row>
-							<Row className="my-3">
-								<Form.Group as={Col} className="mb-3">
-									<Form.Label>Departure city</Form.Label>
-									<Form.Control
-										onChange={(e) =>
-											setNewFlight({
-												...newFlight,
-												departure: {
-													...newFlight.departure,
-													city: e.target.value,
-												},
-											})
-										}
-									/>
-								</Form.Group>
-								<Form.Group as={Col} className="mb-3">
-									<Form.Label>Departure airport</Form.Label>
-									<Form.Control
-										onChange={(e) =>
-											setNewFlight({
-												...newFlight,
-												departure: {
-													...newFlight.departure,
-													airport: e.target.value,
-												},
-											})
-										}
-									/>
-								</Form.Group>
-								<Form.Group as={Col} className="mb-3">
-									<Form.Label>Departure time</Form.Label>
-									<Form.Control
-										onChange={(e) =>
-											setNewFlight({
-												...newFlight,
-												departure: {
-													...newFlight.departure,
-													timestamp: e.target.value,
-												},
-											})
-										}
-									/>
-								</Form.Group>
-							</Row>
-							<Row className="my-3">
-								<Form.Group as={Col} className="mb-3">
-									<Form.Label>Arrival city</Form.Label>
-									<Form.Control
-										onChange={(e) =>
-											setNewFlight({
-												...newFlight,
-												arrival: {
-													...newFlight.arrival,
-													city: e.target.value,
-												},
-											})
-										}
-									/>
-								</Form.Group>
-								<Form.Group as={Col} className="mb-3">
-									<Form.Label>Arrival airport</Form.Label>
-									<Form.Control
-										onChange={(e) =>
-											setNewFlight({
-												...newFlight,
-												arrival: {
-													...newFlight.arrival,
-													airport: e.target.value,
-												},
-											})
-										}
-									/>
-								</Form.Group>
-								<Form.Group as={Col} className="mb-3">
-									<Form.Label>Arrival time</Form.Label>
-									<Form.Control
-										onChange={(e) =>
-											setNewFlight({
-												...newFlight,
-												arrival: {
-													...newFlight.arrival,
-													timestamp: e.target.value,
-												},
-											})
-										}
-									/>
-								</Form.Group>
-							</Row>
-						</Modal.Body>
-						<Modal.Footer>
-							<Button
-								className="mx-auto"
-								variant="dark"
-								onClick={submitNewFlight}
-							>
-								Add new flight
-							</Button>
-						</Modal.Footer>
-					</Modal>
+					<Col xs={8}>My Bookings</Col>
+					<Col xs={4}></Col>
 				</Row>
 				{flights.map(createFlightRow)}
 			</Container>

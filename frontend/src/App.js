@@ -37,6 +37,9 @@ function App() {
 					<Route path="/employeeDashboard">
 						<EmployeeDashboard />
 					</Route>
+					<Route path="/myBookings">
+						<MyBookings />
+					</Route>
 					<Route path="/">
 						<AddFlights />
 					</Route>
