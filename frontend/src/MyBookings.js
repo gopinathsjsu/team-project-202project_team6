@@ -18,6 +18,7 @@ function MyBookings() {
 	console.log("Rendering");
 
 	const [bookings, setBookings] = useState([]);
+	const [modifySeats, setModifySeats] = useState(false);
 
 	const fetchAllBookings = async () => {
 		// 	const response = await axios.get(
@@ -77,21 +78,64 @@ function MyBookings() {
 	}, []);
 
 	const cancelBooking = async (e) => {
-		console.log(e.target.text);
 		try {
-			const payload = {
-				bookingId: e.target.id,
-			};
-			const response = await axios.put(
-				`http:${server_IP}:${server_PORT}/cancelBooking`,
-				payload
-			);
-			console.log(response);
+			// const payload = {
+			// 	bookingId: e.target.id,
+			// };
+			// const response = await axios.put(
+			// 	`http:${server_IP}:${server_PORT}/cancelBooking`,
+			// 	payload
+			// );
+			// console.log(response);
+			fetchAllBookings();
 		} catch (err) {
 			console.error(err);
 		}
 	};
-
+	const updateBooking = async (e) => {
+		const payload = {
+			bookingId: e.target.parentNode.id,
+			newSeatNumber: e.target.value,
+			flightId: e.target.id,
+			oldSeatNumber: e.target.parentNode.title,
+		};
+		try {
+			// const response = await axios.put(
+			// 	`http:${server_IP}:${server_IP}/updateBooking`,
+			// 	payload
+			// );
+			// console.log(response);
+			// fetchAllBookings();
+		} catch (err) {
+			console.error(err);
+		}
+		// console.log("bookingId", e.target.parent.id);
+	};
+	const getAvailableSeats = (flightId) => {
+		try {
+			// const response = await axios.get(
+			// 	`http:${server_IP}:${server_PORT}/flightDetails?flightId=${flightId}`
+			// );
+			// console.log(response);
+			// return response.data.seats;
+			return ["1A", "2A", "3A", "3B", "3C"];
+		} catch (err) {
+			console.error(err);
+		}
+	};
+	const renderModifySeats = (flightId) => {
+		const createOption = (seat) => {
+			return <option value={seat}>{seat}</option>;
+		};
+		const availableSeats = getAvailableSeats(flightId);
+		console.log("available seats", availableSeats);
+		return (
+			<Form.Select id={flightId} onChange={updateBooking}>
+				<option>Select seat</option>
+				{availableSeats.map(createOption)}
+			</Form.Select>
+		);
+	};
 	const createBookingRow = (row) => {
 		return (
 			<Row className="m-4">
@@ -101,14 +145,15 @@ function MyBookings() {
 							<Col xs={2}>{row.flightName}</Col>
 							<Col xs={2}>Booking ID: #{row.bookingId}</Col>
 							<Col
-								xs={6}
+								xs={2}
 							>{`${row.passengerFirstName} ${row.passengerLastName}`}</Col>
+							<Col xs={4}>Seat Number: {row.seatNumber}</Col>
 							<Col xs={2}>{row.status}</Col>
 						</Row>
 					</Card.Header>
 					<Card.Body>
 						<Row>
-							<Col xs={6}>
+							<Col xs={5}>
 								<Card.Title>
 									{row.departure.timestamp}&emsp;-&emsp;
 									{row.arrival.timestamp}
@@ -119,9 +164,47 @@ function MyBookings() {
 									{row.arrival.airport}
 								</Card.Text>
 							</Col>
-							<Col xs={3}>Pick new seat</Col>
+							<Col xs={4}>
+								<Row>
+									<Col>
+										<Button
+											variant="dark"
+											onClick={() =>
+												setModifySeats(!modifySeats)
+											}
+										>
+											Change seats
+										</Button>
+									</Col>
+									<Col
+										id={row.bookingId}
+										title={row.seatNumber}
+									>
+										{modifySeats
+											? renderModifySeats(row.flightId)
+											: ""}
+									</Col>
+								</Row>
+							</Col>
 							<Col xs={3} className="px-5">
-								<Button variant="dark">Cancel Booking</Button>
+								{row.status.toLowerCase() === "scheduled" ? (
+									<Button
+										variant="dark"
+										onClick={cancelBooking}
+										id={row.bookingId}
+									>
+										Cancel Booking
+									</Button>
+								) : (
+									<Button
+										variant="dark"
+										onClick={cancelBooking}
+										id={row.bookingId}
+										disabled
+									>
+										Cancel Booking
+									</Button>
+								)}
 							</Col>
 						</Row>
 					</Card.Body>
