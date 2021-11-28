@@ -29,7 +29,6 @@ router.get("/flightDetails", (req, res) => {
 })
 
 router.get("/getAvailableMileagePoints", (req, res) => {
-    //console.log("Inside register", req.body)
     const customerId = req.body.id
     User.findOne({ _id: customerId }, {"mileagePoints": 1}, (err, user) => {
         if (err) {
@@ -46,6 +45,7 @@ router.get("/getAvailableMileagePoints", (req, res) => {
     })
 
 })
+
 
 
 router.post("/confirmFlightBooking", async (req, res) => {

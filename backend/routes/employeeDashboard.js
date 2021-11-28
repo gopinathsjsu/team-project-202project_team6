@@ -61,11 +61,8 @@ router.post("/addNewFlight", (req, res) => {
 
 
 router.post("/updateFlightStatus", (req, res) => {
-    //console.log("Inside register", req.body)
     const flightId = req.body.id
     const newStatus=req.body.newStatus
-
-    // console.log(fname)
 
     Flight.updateOne({_id: flightId}, {"status": newStatus}, { useFindAndModify: false }, (err, flight) => {
         if (err) {
@@ -103,11 +100,8 @@ router.get("/fetchAllFlights",(req, res) => {
 
 
 router.post("/updateFlightPrice", (req, res) => {
-    //console.log("Inside register", req.body)
     const flightId = req.body.id
     const newPrice=req.body.newPrice
-
-    // console.log(fname)
 
     Flight.updateOne({_id: flightId}, {"price": newPrice}, { useFindAndModify: false }, (err, flight) => {
         if (err) {
