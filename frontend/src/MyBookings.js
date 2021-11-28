@@ -20,6 +20,21 @@ function MyBookings() {
 	const [bookings, setBookings] = useState([]);
 	const [modifySeats, setModifySeats] = useState(false);
 	const [availableSeats, setAvailableSeats] = useState({});
+	const [customerDetails, setCustomerDetails] = useState({});
+
+	const fetchCustomerDetails = async (e) => {
+		try {
+			const response = await axios.get(
+				`http://${server_IP}:${server_PORT}/myProfile/fetchCustomerDetails?id=${localStorage.getItem(
+					"customerId"
+				)}`
+			);
+			console.log("my details", response.data);
+			setCustomerDetails(response.data);
+		} catch (err) {
+			console.error(err);
+		}
+	};
 
 	const fetchAllBookings = async () => {
 		const response = await axios.get(
@@ -87,6 +102,7 @@ function MyBookings() {
 
 	useEffect(() => {
 		fetchAllBookings();
+		fetchCustomerDetails();
 	}, []);
 
 	const cancelBooking = async (e) => {
@@ -234,7 +250,14 @@ function MyBookings() {
 	return (
 		<div className="m-5">
 			<Container style={{ display: "flex", flexDirection: "column" }}>
-				<Row className="display-6 mt-3 mb-1">
+				<Row className="display-6 mt-2 mb-5">
+					<Col xs={4}>Hello, {customerDetails.name}</Col>
+					<Col xs={8}>
+						You have <b>{customerDetails.mileagePoints}</b> Mileage
+						Rewards Points
+					</Col>
+				</Row>
+				<Row className="mt-3 mb-1 h4">
 					<Col xs={8}>My Bookings</Col>
 					<Col xs={4}></Col>
 				</Row>

@@ -306,7 +306,7 @@ function EmployeeDashboard() {
 												...newFlight,
 												departure: {
 													...newFlight.departure,
-													timestamp: e.target.value,
+													time: e.target.value,
 												},
 											})
 										}
@@ -350,13 +350,32 @@ function EmployeeDashboard() {
 												...newFlight,
 												arrival: {
 													...newFlight.arrival,
-													timestamp: e.target.value,
+													time: e.target.value,
 												},
 											})
 										}
 									/>
 								</Form.Group>
 							</Row>
+							<Form.Group as={Col} controlId="dateOfTravel">
+								<Form.Label>Date of travel</Form.Label>
+								<Form.Control
+									type="date"
+									onChange={(e) =>
+										setNewFlight({
+											...newFlight,
+											departure: {
+												...newFlight.departure,
+												date: e.target.value,
+											},
+											arrival: {
+												...newFlight.arrival,
+												date: e.target.value,
+											},
+										})
+									}
+								/>
+							</Form.Group>
 						</Modal.Body>
 						<Modal.Footer>
 							<Button
