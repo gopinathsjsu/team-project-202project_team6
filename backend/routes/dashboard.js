@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
 
 router.get("/",(req, res) => {
     console.log("Inside register", req.body)
-    Flight.find({status: {$nin: ["complete","cancelled"]}}, (err, flight) => {
+    Flight.find({status: {$nin: ["complete","cancelled"]}}, {"departure.airport": 1, "arrival.airport": 1},(err, flight) => {
         if (err) {
             console.log(err)
         }
