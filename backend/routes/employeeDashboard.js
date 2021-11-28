@@ -33,12 +33,14 @@ router.post("/addNewFlight", (req, res) => {
                 flightName: fname,
                 departure: {
                     airport: fdeparture.airport,
-                    timestamp: fdeparture.timestamp,
+                    date: fdeparture.date,
+                    time: fdeparture.time,
                     city: fdeparture.city
                 },
                 arrival: {
                     airport: farrival.airport,
-                    timestamp: farrival.timestamp,
+                    date: farrival.date,
+                    time: farrival.time,
                     city: farrival.city
                 },
                 price: fprice,

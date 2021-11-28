@@ -73,12 +73,14 @@ router.post("/confirmFlightBooking", async (req, res) => {
                 flightName: flight.flightName,
                 departure: {
                     airport: flight.departure.airport,
-                    time: flight.departure.timestamp,
+                    date:flight.departure.date,
+                    time: flight.departure.time,
                     city: flight.departure.city
                 },
                 arrival: {
                     airport: flight.arrival.airport,
-                    time: flight.arrival.timestamp,
+                    date:flight.arrival.date,
+                    time: flight.arrival.time,
                     city: flight.arrival.city
                 },
                 seatNumber: seatNumber,

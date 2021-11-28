@@ -31,7 +31,7 @@ router.get("/searchFlights",(req, res) => {
     const from=req.body.from
     const date=req.body.date
 
-    Flight.find({'departure.airport': from, 'arrival.airport': to, 'departure.timestamp': date}, (err, flight) => {
+    Flight.find({'departure.airport': from, 'arrival.airport': to, 'departure.date': date}, (err, flight) => {
         if (err) {
             console.log(err)
         }
