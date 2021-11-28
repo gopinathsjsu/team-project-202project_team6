@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Container, Button, Form, Row, Col, Card } from "react-bootstrap";
 import { server_IP, server_PORT } from "./config/serverConfig.js";
@@ -10,6 +10,31 @@ function Dashboard() {
 	const [arrAirport, setArrAirport] = useState("");
 	const [dateOfTravel, setDateOfTravel] = useState("");
 	const [flights, setFlights] = useState([]);
+	const [departureAirports, setDepartureAirports] = useState([]);
+	const [arrivalAirports, setArrivalAirports] = useState([]);
+	console.log(depAirport, arrAirport);
+	const fetchAirports = async () => {
+		try {
+			const response = await axios.get(
+				`http://${server_IP}:${server_PORT}/dashboard`
+			);
+			console.log(response.data);
+			let dep = [];
+			let arr = [];
+			for (let i = 0; i < response.data.length; i++) {
+				dep.push(response.data[i].departure.airport);
+				arr.push(response.data[i].arrival.airport);
+			}
+			setDepartureAirports([...new Set(dep)]);
+			setArrivalAirports([...new Set(arr)]);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	useEffect(() => {
+		fetchAirports();
+	}, []);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -17,8 +42,8 @@ function Dashboard() {
 		console.log(depAirport, arrAirport, dateOfTravel);
 		try {
 			const payload = {
-				to: depAirport,
-				from: arrAirport,
+				to: arrAirport,
+				from: depAirport,
 				date: dateOfTravel,
 			};
 			console.log(payload);
@@ -27,7 +52,7 @@ function Dashboard() {
 				payload
 			);
 			console.log(response);
-			setFlights(response.data.flights);
+			setFlights(response.data);
 			// setFlights([
 			// 	{
 			// 		id: "243424242",
@@ -70,7 +95,7 @@ function Dashboard() {
 		return (
 			<Row className="m-4">
 				<Card>
-					<Card.Header>{row.name}</Card.Header>
+					<Card.Header>{row.flightName}</Card.Header>
 					<Card.Body>
 						<Row>
 							<Col xs={10}>
@@ -92,8 +117,8 @@ function Dashboard() {
 									</Col>
 								</Row>
 								<Row>
-									<Link to={`/checkout/?id=${row.id}`}>
-										<Button id={row.id} variant="dark">
+									<Link to={`/checkout/?id=${row._id}`}>
+										<Button id={row._id} variant="dark">
 											Book now
 										</Button>
 									</Link>
@@ -114,24 +139,28 @@ function Dashboard() {
 						<Row className="mb-3">
 							<Form.Group as={Col} controlId="departureAirport">
 								<Form.Label>Departure Airport</Form.Label>
-								<Form.Control
-									type="text"
-									placeholder="Leaving from"
+								<Form.Select
 									onChange={(e) =>
 										setDepAirport(e.target.value)
 									}
-								/>
+								>
+									{departureAirports.map((airport) => {
+										return <option>{airport}</option>;
+									})}
+								</Form.Select>
 							</Form.Group>
 
 							<Form.Group as={Col} controlId="arrivalAirport">
 								<Form.Label>Arrival Airport</Form.Label>
-								<Form.Control
-									type="text"
-									placeholder="Going to"
+								<Form.Select
 									onChange={(e) =>
 										setArrAirport(e.target.value)
 									}
-								/>
+								>
+									{arrivalAirports.map((airport) => {
+										return <option>{airport}</option>;
+									})}
+								</Form.Select>
 							</Form.Group>
 
 							<Form.Group as={Col} controlId="dateOfTravel">

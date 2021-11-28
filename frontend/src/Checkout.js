@@ -1,17 +1,18 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useHistory, Link, useLocation } from "react-router-dom";
 import { Container, Button, Form, Row, Col, Card } from "react-bootstrap";
 import { server_IP, server_PORT } from "./config/serverConfig.js";
 
 function Checkout() {
+	// const history = useHistory();
 	console.log("Rendering");
 	const search = useLocation().search;
 	const flightId = new URLSearchParams(search).get("id");
 	const [flightDetails, setFlightDetails] = useState({
 		departure: {},
 		arrival: {},
-		seats: [],
+		seatsAvailable: [],
 	});
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
@@ -23,9 +24,9 @@ function Checkout() {
 		const fetchFlightDetails = async () => {
 			try {
 				const response = await axios.get(
-					`http://${server_IP}:${server_PORT}/checkout/flightDetails/?fid=${flightId}`
+					`http://${server_IP}:${server_PORT}/checkout/flightDetails/?id=${flightId}`
 				);
-				console.log(response);
+				console.log("Fetch flight details response: ", response);
 				setFlightDetails(response.data);
 				// setFlightDetails({
 				// 	id: "243424242",
@@ -65,7 +66,7 @@ function Checkout() {
 						"customerId"
 					)}`
 				);
-				console.log(response.data);
+				console.log("Fetch mileage points repsonse: ", response.data);
 				if (response.data["mileagePoints"]) {
 					setMileagePoints(response.data["mileagePoints"]);
 				}
@@ -84,7 +85,7 @@ function Checkout() {
 			const payload = {
 				cid: localStorage.getItem("customerId"),
 				fid: flightId,
-				flightName: flightDetails.name,
+				flightName: flightDetails.flightName,
 				departure: flightDetails.departure,
 				arrival: flightDetails.arrival,
 				seatNumber: seatPreference,
@@ -93,16 +94,15 @@ function Checkout() {
 					(useMileagePoints ? mileagePoints / 10 : 0),
 				passengerFirstName: firstName,
 				passengerLastName: lastName,
-				mileagePointsUsed: useMileagePoints
-					? flightDetails.price * 10
-					: 0,
+				mileagePointsUsed: useMileagePoints ? mileagePoints : 0,
 			};
 			console.log(payload);
 			const response = await axios.post(
-				`http://${server_IP}:${server_PORT}/confirmFlightBooking`,
+				`http://${server_IP}:${server_PORT}/checkout/confirmFlightBooking`,
 				payload
 			);
 			console.log(response);
+			// history.push("/dashboard");
 		} catch (err) {
 			console.error(err);
 		}
@@ -116,7 +116,7 @@ function Checkout() {
 				<Row className="my-5 h4">
 					<Card>
 						<Card.Header className="display-6">
-							{flightDetails.name}
+							{flightDetails.flightName}
 						</Card.Header>
 						<Card.Body className="px-5">
 							<Row className="mb-3">
@@ -206,9 +206,11 @@ function Checkout() {
 									}}
 								>
 									<option>Choose...</option>
-									{flightDetails.seats.map((seat) => {
-										return <option>{seat}</option>;
-									})}
+									{flightDetails.seatsAvailable.map(
+										(seat) => {
+											return <option>{seat}</option>;
+										}
+									)}
 								</Form.Select>
 							</Form.Group>
 							<Form.Group className="mt-5 mb-3">

@@ -10,8 +10,8 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/flightDetails", (req, res) => {
-	console.log("Inside register", req.body);
-	const fid = req.body.id;
+	console.log("Inside register", req.query);
+	const fid = req.query.id;
 	Flight.findOne({ _id: fid }, (err, flight) => {
 		if (err) {
 			console.log(err);
@@ -27,7 +27,7 @@ router.get("/flightDetails", (req, res) => {
 });
 
 router.get("/getAvailableMileagePoints", (req, res) => {
-	const customerId = req.body.id;
+	const customerId = req.query.id;
 	User.findOne({ _id: customerId }, { mileagePoints: 1 }, (err, user) => {
 		if (err) {
 			console.log(err);
@@ -79,7 +79,7 @@ router.post("/confirmFlightBooking", async (req, res) => {
 					city: flight.arrival.city,
 				},
 				seatNumber: seatNumber,
-				price: flight.price,
+				price: req.body.price,
 				flightStatus: flight.status,
 				mileagePointsUsed: mileagePointsUsed,
 				bookingStatus: bookingStatus,
