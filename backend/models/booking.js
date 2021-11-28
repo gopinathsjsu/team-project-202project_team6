@@ -21,6 +21,7 @@ const booking = new mongoose.Schema({
     price: Number,
     flightStatus: String,
     mileagePointsUsed: Number,
+    bookingStatus: String
 })
 
 const Booking = new mongoose.model("Booking", booking)

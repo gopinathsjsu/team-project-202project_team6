@@ -56,8 +56,9 @@ router.post("/confirmFlightBooking", async (req, res) => {
     const plname =req.body.passengerLastName
     const seatNumber= req.body.seatNumber
     const mileagePointsUsed = req.body.mileagePointsUsed
+    const bookingStatus= req.body.bookingStatus
 
-    await Flight.updateOne({seatsAvailable: seatNumber},{$pull: {seatsAvailable: seatNumber}});
+    await Flight.updateOne({_id: fid},{$pull: {seatsAvailable: seatNumber}});
     Flight.findOne({ _id: fid }, (err, flight) => {
         if (err) {
             console.log(err)
@@ -83,7 +84,8 @@ router.post("/confirmFlightBooking", async (req, res) => {
                 seatNumber: seatNumber,
                 price: flight.price,
                 flightStatus: flight.status,
-                mileagePointsUsed:mileagePointsUsed
+                mileagePointsUsed:mileagePointsUsed,
+                bookingStatus: bookingStatus
             })
             console.log(newBooking)
             newBooking.save(err => {
