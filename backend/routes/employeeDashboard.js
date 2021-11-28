@@ -121,4 +121,22 @@ router.post("/updateFlightPrice", (req, res) => {
 
 })
 
+router.post('/employeeLogin', async (req, res) => {
+    const { email, password } = req.body
+
+    let doc = await Employee.findOne({ email: email })
+    console.log(doc)
+    if (doc.password == password) {
+        res.send({
+            success: 1,
+            message: "login successfull"
+        })
+    } else {
+        res.send({
+            success: 0,
+            message: "invalid email or password"
+        })
+    }
+})
+
 module.exports = router;
