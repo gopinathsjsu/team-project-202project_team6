@@ -56,7 +56,7 @@ router.post("/confirmFlightBooking", async (req, res) => {
     const plname = req.body.passengerLastName
     const seatNumber = req.body.seatNumber
     const mileagePointsUsed = req.body.mileagePointsUsed
-    const bookingStatus = req.body.bookingStatus
+    const bookingStatus = "booked"
 
     await Flight.updateOne({ _id: fid }, { $pull: { seatsAvailable: seatNumber } });
     Flight.findOne({ _id: fid }, (err, flight) => {
