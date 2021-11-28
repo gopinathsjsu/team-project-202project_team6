@@ -16,6 +16,7 @@ router.post("/addNewFlight", (req, res) => {
     const fprice=req.body.price
     const fstatus=req.body.status
     const fduration=req.body.duration
+    const fmiles=req.body.miles
 
     // console.log(fname)
 
@@ -42,7 +43,8 @@ router.post("/addNewFlight", (req, res) => {
                 },
                 price: fprice,
                 duration: fduration,
-                status: fstatus
+                status: fstatus,
+                miles:fmiles
             })
             console.log(newFlight)
             newFlight.save(err => {

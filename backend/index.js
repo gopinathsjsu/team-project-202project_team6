@@ -38,6 +38,7 @@ app.use("/employeeDashboard",require("./routes/employeeDashboard"))
 app.use('/userLogin', require('./routes/userLogin'))
 app.use('/dashboard', require('./routes/dashboard'))
 app.use('/checkout', require('./routes/checkout'))
+app.use('/myBookings', require('./routes/myBookings'))
 app.use('/myProfile', require('./routes/myProfile'))
 
 app.listen(8000, () => {
