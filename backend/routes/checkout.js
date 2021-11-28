@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
 
 router.get("/flightDetails", (req, res) => {
     console.log("Inside register", req.body)
-    const fid = req.body.id
+    const fid = req.query.id
     Flight.findOne({ _id: fid }, (err, flight) => {
         if (err) {
             console.log(err)
@@ -29,8 +29,8 @@ router.get("/flightDetails", (req, res) => {
 })
 
 router.get("/getAvailableMileagePoints", (req, res) => {
-    const customerId = req.body.id
-    User.findOne({ _id: customerId }, {"mileagePoints": 1}, (err, user) => {
+    const customerId = req.query.id
+    User.findOne({ _id: customerId }, { "mileagePoints": 1 }, (err, user) => {
         if (err) {
             console.log(err)
         }
@@ -52,12 +52,12 @@ router.post("/confirmFlightBooking", async (req, res) => {
     console.log("Inside register", req.body)
     const cid = req.body.cid
     const fid = req.body.fid
-    const pfname =req.body.passengerFirstName
-    const plname =req.body.passengerLastName
-    const seatNumber= req.body.seatNumber
+    const pfname = req.body.passengerFirstName
+    const plname = req.body.passengerLastName
+    const seatNumber = req.body.seatNumber
     const mileagePointsUsed = req.body.mileagePointsUsed
 
-    await Flight.updateOne({seatsAvailable: seatNumber},{$pull: {seatsAvailable: seatNumber}});
+    await Flight.updateOne({ seatsAvailable: seatNumber }, { $pull: { seatsAvailable: seatNumber } });
     Flight.findOne({ _id: fid }, (err, flight) => {
         if (err) {
             console.log(err)
@@ -66,8 +66,8 @@ router.post("/confirmFlightBooking", async (req, res) => {
             console.log("Here's your flight")
             const newBooking = new Booking({
                 customerId: cid,
-                passengerFirstName:pfname,
-                passengerLastName:plname,
+                passengerFirstName: pfname,
+                passengerLastName: plname,
                 flightId: flight._id,
                 flightName: flight.flightName,
                 departure: {
@@ -83,7 +83,7 @@ router.post("/confirmFlightBooking", async (req, res) => {
                 seatNumber: seatNumber,
                 price: flight.price,
                 flightStatus: flight.status,
-                mileagePointsUsed:mileagePointsUsed
+                mileagePointsUsed: mileagePointsUsed
             })
             console.log(newBooking)
             newBooking.save(err => {
@@ -100,7 +100,7 @@ router.post("/confirmFlightBooking", async (req, res) => {
         else {
             console.log("Flight does not exist")
         }
-        
+
 
     })
 
