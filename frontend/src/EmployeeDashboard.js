@@ -25,7 +25,7 @@ function EmployeeDashboard() {
 	console.log(newFlight);
 	const fetchAllFlights = async () => {
 		const response = await axios.get(
-			`http:${server_IP}:${server_PORT}/employeeDashboard/fetchAllFlights`
+			`http://${server_IP}:${server_PORT}/employeeDashboard/fetchAllFlights`
 		);
 		console.log(response);
 		setFlights(response);
@@ -78,7 +78,7 @@ function EmployeeDashboard() {
 			};
 			console.log(payload);
 			const response = await axios.put(
-				`http:${server_IP}:${server_PORT}/employeeDashboard/updateFlightPrice`,
+				`http://${server_IP}:${server_PORT}/employeeDashboard/updateFlightPrice`,
 				payload
 			);
 			console.log(response);
@@ -95,7 +95,7 @@ function EmployeeDashboard() {
 				newStatus: e.target.text.toLowerCase(),
 			};
 			const response = await axios.put(
-				`http:${server_IP}:${server_PORT}/employeeDashboard/updateFlightStatus`,
+				`http://${server_IP}:${server_PORT}/employeeDashboard/updateFlightStatus`,
 				payload
 			);
 			console.log(response);
@@ -111,7 +111,7 @@ function EmployeeDashboard() {
 		console.log(payload);
 		try {
 			const response = await axios.post(
-				`http:${server_IP}:${server_PORT}/employeeDashboard/addNewFlight`,
+				`http://${server_IP}:${server_PORT}/employeeDashboard/addNewFlight`,
 				payload
 			);
 			setShowModal(!showModal);

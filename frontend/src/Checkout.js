@@ -22,38 +22,38 @@ function Checkout() {
 	useEffect(() => {
 		const fetchFlightDetails = async () => {
 			try {
-				// const response = await axios.get(
-				// 	`http://${server_IP}:${server_PORT}/flightDetails/?id=${flightId}`
-				// );
-				// console.log(response);
-				// setFlightDetails(response.data);
-				setFlightDetails({
-					id: "243424242",
-					name: "UA 295",
-					duration: "5H 17M",
-					departure: {
-						city: "San Fransisco",
-						airport: "SFO",
-						timestamp: "08:30 PM",
-					},
-					arrival: {
-						city: "New York",
-						airport: "NYC",
-						timestamp: "04:48 PM",
-					},
-					price: 99,
-					seats: [
-						"30A",
-						"30B",
-						"29A",
-						"29B",
-						"29C",
-						"29E",
-						"29F",
-						"28D",
-						"28E",
-					],
-				});
+				const response = await axios.get(
+					`http://${server_IP}:${server_PORT}/checkout/flightDetails/?fid=${flightId}`
+				);
+				console.log(response);
+				setFlightDetails(response.data);
+				// setFlightDetails({
+				// 	id: "243424242",
+				// 	name: "UA 295",
+				// 	duration: "5H 17M",
+				// 	departure: {
+				// 		city: "San Fransisco",
+				// 		airport: "SFO",
+				// 		timestamp: "08:30 PM",
+				// 	},
+				// 	arrival: {
+				// 		city: "New York",
+				// 		airport: "NYC",
+				// 		timestamp: "04:48 PM",
+				// 	},
+				// 	price: 99,
+				// 	seats: [
+				// 		"30A",
+				// 		"30B",
+				// 		"29A",
+				// 		"29B",
+				// 		"29C",
+				// 		"29E",
+				// 		"29F",
+				// 		"28D",
+				// 		"28E",
+				// 	],
+				// });
 			} catch (err) {
 				console.error(err);
 			}
@@ -61,7 +61,7 @@ function Checkout() {
 		const fetchMileagePoints = async () => {
 			try {
 				const response = await axios.get(
-					`http:${server_IP}:${server_PORT}/checkout/getAvailableMileagePoints/${localStorage.getItem(
+					`http://${server_IP}:${server_PORT}/checkout/getAvailableMileagePoints/?id=${localStorage.getItem(
 						"customerId"
 					)}`
 				);
@@ -81,27 +81,28 @@ function Checkout() {
 		e.preventDefault();
 		console.log("Inside handle submit");
 		try {
-			// const payload = {
-			// 	customerId: customerId,
-			// 	flightId: flightId,
-			// 	flightName: flightDetails.name,
-			// 	departure: flightDetails.departure,
-			// 	arrival: flightDetails.arrival,
-			// 	seatNumber: seatPreference,
-			// 	price: flightDetails.price -
-			// 	(useMileagePoints
-			// 		? mileagePoints / 10
-			// 		: 0),
-			// 	passengerFirstName: firstName,
-			// 	passengerLastName: lastName,
-			// 	mileagePointsUsed: (useMileagePoints ? flightDetails.price * 10 : 0)
-			// };
-			// console.log(payload);
-			// const response = await axios.post(
-			// 	`http://${server_IP}:${server_PORT}/confirmFlightBooking`,
-			// 	payload
-			// );
-			// console.log(response);
+			const payload = {
+				cid: localStorage.getItem("customerId"),
+				fid: flightId,
+				flightName: flightDetails.name,
+				departure: flightDetails.departure,
+				arrival: flightDetails.arrival,
+				seatNumber: seatPreference,
+				price:
+					flightDetails.price -
+					(useMileagePoints ? mileagePoints / 10 : 0),
+				passengerFirstName: firstName,
+				passengerLastName: lastName,
+				mileagePointsUsed: useMileagePoints
+					? flightDetails.price * 10
+					: 0,
+			};
+			console.log(payload);
+			const response = await axios.post(
+				`http://${server_IP}:${server_PORT}/confirmFlightBooking`,
+				payload
+			);
+			console.log(response);
 		} catch (err) {
 			console.error(err);
 		}
