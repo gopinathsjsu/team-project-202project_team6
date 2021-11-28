@@ -17,19 +17,20 @@ import { server_IP, server_PORT } from "./config/serverConfig.js";
 function MyBookings() {
 	console.log("Rendering");
 
-	const [flights, setFlights] = useState([]);
+	const [bookings, setBookings] = useState([]);
 
-	const fetchAllFlights = async () => {
+	const fetchAllBookings = async () => {
 		// 	const response = await axios.get(
-		// 		`http:${server_IP}:${server_PORT}/fetchAllFlights`
+		// 		`http:${server_IP}:${server_PORT}/fetchAllBookings`
 		// 	);
 		// 	console.log(response);
-		// 	setFlights(response.data.flights);
+		// 	setBookings(response.data.bookings);
 		// };
-		setFlights([
+		setBookings([
 			{
-				id: "243424242",
-				name: "UA 295",
+				bookingId: "1",
+				flightId: "243424242",
+				flightName: "UA 295",
 				duration: "5H 17M",
 				departure: {
 					city: "San Francisco",
@@ -43,10 +44,14 @@ function MyBookings() {
 				},
 				price: 99,
 				status: "Scheduled",
+				seatNumber: "1B",
+				passengerFirstName: "John",
+				passengerLastName: "Doe",
 			},
 			{
-				id: "848239042",
-				name: "UA 520",
+				bookingId: "2",
+				flightId: "848239042",
+				flightName: "UA 520",
 				duration: "6H 02M",
 				departure: {
 					city: "San Francisco",
@@ -60,12 +65,15 @@ function MyBookings() {
 				},
 				price: 119,
 				status: "Cancelled",
+				seatNumber: "4D",
+				passengerFirstName: "Jane",
+				passengerLastName: "Doe",
 			},
 		]);
 	};
 
 	useEffect(() => {
-		fetchAllFlights();
+		fetchAllBookings();
 	}, []);
 
 	const cancelBooking = async (e) => {
@@ -84,13 +92,17 @@ function MyBookings() {
 		}
 	};
 
-	const createFlightRow = (row) => {
+	const createBookingRow = (row) => {
 		return (
 			<Row className="m-4">
 				<Card>
 					<Card.Header>
 						<Row>
-							<Col xs={10}>{row.name}</Col>
+							<Col xs={2}>{row.flightName}</Col>
+							<Col xs={2}>Booking ID: #{row.bookingId}</Col>
+							<Col
+								xs={6}
+							>{`${row.passengerFirstName} ${row.passengerLastName}`}</Col>
 							<Col xs={2}>{row.status}</Col>
 						</Row>
 					</Card.Header>
@@ -124,7 +136,7 @@ function MyBookings() {
 					<Col xs={8}>My Bookings</Col>
 					<Col xs={4}></Col>
 				</Row>
-				{flights.map(createFlightRow)}
+				{bookings.map(createBookingRow)}
 			</Container>
 		</div>
 	);
