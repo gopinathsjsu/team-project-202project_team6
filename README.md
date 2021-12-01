@@ -35,3 +35,4 @@ npm install
 npm start
 npm run build
 ```
+## Architecture Diagram
