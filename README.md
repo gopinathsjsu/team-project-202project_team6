@@ -36,3 +36,4 @@ npm start
 npm run build
 ```
 ## Architecture Diagram
+![202_Architecture2](https://user-images.githubusercontent.com/78246787/144172245-0cbb23a0-92cb-4c04-97e2-0692e71baa8e.jpg)
