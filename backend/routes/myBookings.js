@@ -56,7 +56,7 @@ async function updateMileagePoints(flightId, bookingId, cid) {
     { _id: bookingId },
     { mileagePointsUsed: 1, _id: 0 }
   );
-  //   console.log(mileagePointsUsed);
+
   const currentMileagePoints = await User.findOne(
     { _id: cid },
     { mileagePoints: 1, _id: 0 }

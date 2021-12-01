@@ -83,6 +83,7 @@ function EmployeeDashboard() {
 			);
 			console.log(response);
 			fetchAllFlights();
+			alert(`Successfully updated the price to $${newPrice}`);
 		} catch (err) {
 			console.error(err);
 		}
@@ -99,6 +100,7 @@ function EmployeeDashboard() {
 				payload
 			);
 			console.log(response);
+			fetchAllFlights();
 		} catch (err) {
 			console.error(err);
 		}
@@ -120,66 +122,15 @@ function EmployeeDashboard() {
 			console.error(err);
 		}
 	};
-	const renderEmployeeButtons = (row) => {
-		return (
-			<Col xs={6} className="px-5">
-				<Row className="my-2">
-					<Col>
-						<InputGroup>
-							<InputGroup.Text>$</InputGroup.Text>
-							<Form.Control
-								type="text"
-								defaultValue={row.price}
-								onChange={(e) => setNewPrice(e.target.value)}
-							></Form.Control>
-						</InputGroup>
-					</Col>
-					<Col>
-						<Button
-							id={row._id}
-							variant="dark"
-							onClick={updateFlightPrice}
-						>
-							Update price
-						</Button>
-					</Col>
-					<Col>
-						<Dropdown>
-							<Dropdown.Toggle variant="dark">
-								Update status
-							</Dropdown.Toggle>
-
-							<Dropdown.Menu
-								variant="dark"
-								onClick={handleUpdateFlightStatus}
-							>
-								{["Scheduled", "Cancelled", "Completed"]
-									.filter(
-										(x) =>
-											x.toLowerCase() !==
-											row.status.toLowerCase()
-									)
-									.map((x) => {
-										return (
-											<Dropdown.Item id={row._id}>
-												{x}
-											</Dropdown.Item>
-										);
-									})}
-							</Dropdown.Menu>
-						</Dropdown>
-					</Col>
-				</Row>
-			</Col>
-		);
-	};
 	const createFlightRow = (row) => {
 		return (
 			<Row className="m-4">
 				<Card>
 					<Card.Header>
 						<Row>
-							<Col xs={10}>{row.flightName}</Col>
+							<Col xs={2}>{row.flightName}</Col>
+							<Col xs={2}>{row.duration}</Col>
+							<Col xs={6}>{row.miles} miles</Col>
 							<Col xs={2}>
 								{row.status.charAt(0).toUpperCase() +
 									row.status.slice(1)}
@@ -199,9 +150,97 @@ function EmployeeDashboard() {
 									{row.arrival.airport}
 								</Card.Text>
 							</Col>
-							{row.status.toLowerCase() === "scheduled"
-								? renderEmployeeButtons(row)
-								: ""}
+							<Col xs={6} className="px-5">
+								<Row className="my-2">
+									<Col>
+										{row.status.toLowerCase() ===
+										"scheduled" ? (
+											<InputGroup>
+												<InputGroup.Text>
+													$
+												</InputGroup.Text>
+												<Form.Control
+													type="text"
+													defaultValue={row.price}
+													onChange={(e) =>
+														setNewPrice(
+															e.target.value
+														)
+													}
+												></Form.Control>
+											</InputGroup>
+										) : (
+											""
+										)}
+									</Col>
+									<Col>
+										{row.status.toLowerCase() ===
+										"scheduled" ? (
+											<Button
+												id={row._id}
+												variant="dark"
+												onClick={updateFlightPrice}
+											>
+												Update price
+											</Button>
+										) : (
+											<Button
+												id={row._id}
+												variant="dark"
+												onClick={updateFlightPrice}
+												disabled
+											>
+												Update price
+											</Button>
+										)}
+									</Col>
+									<Col>
+										{row.status.toLowerCase() ===
+										"scheduled" ? (
+											<Dropdown>
+												<Dropdown.Toggle variant="dark">
+													Update status
+												</Dropdown.Toggle>
+
+												<Dropdown.Menu
+													variant="dark"
+													onClick={
+														handleUpdateFlightStatus
+													}
+												>
+													{[
+														"Scheduled",
+														"Cancelled",
+														"Completed",
+													]
+														.filter(
+															(x) =>
+																x.toLowerCase() !==
+																row.status.toLowerCase()
+														)
+														.map((x) => {
+															return (
+																<Dropdown.Item
+																	id={row._id}
+																>
+																	{x}
+																</Dropdown.Item>
+															);
+														})}
+												</Dropdown.Menu>
+											</Dropdown>
+										) : (
+											<Button
+												id={row._id}
+												variant="dark"
+												disabled
+											>
+												Update status
+											</Button>
+										)}
+									</Col>
+								</Row>
+							</Col>
 						</Row>
 					</Card.Body>
 				</Card>
@@ -264,6 +303,17 @@ function EmployeeDashboard() {
 											setNewFlight({
 												...newFlight,
 												price: parseInt(e.target.value),
+											})
+										}
+									/>
+								</Form.Group>
+								<Form.Group as={Col} className="mb-3">
+									<Form.Label>Miles</Form.Label>
+									<Form.Control
+										onChange={(e) =>
+											setNewFlight({
+												...newFlight,
+												miles: parseInt(e.target.value),
 											})
 										}
 									/>
