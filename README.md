@@ -13,6 +13,9 @@
 - Cloud: Amazon Web Services (EC2 Cluster)
 - Database: MongoDB
 
+## Scrum meetings schedule:
+Every Friday
+
 ## Task Allocation:
 - Frontend: Jash Sheth, Shaunak Bhatlawande
 - Backend: Tejas Mahajan, Ishan Kanungo
