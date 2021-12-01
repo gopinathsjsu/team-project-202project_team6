@@ -35,8 +35,8 @@ npm install
 npm start
 npm run build
 ```
-## Architecture Diagram
+## Architecture Diagram:
 ![202_Architecture5](https://user-images.githubusercontent.com/78246787/144181838-da7f2edf-e979-4516-a89c-092a6243614f.jpg)
 
-## Component Diagram
+## Component Diagram:
 ![Untitled Diagram](https://user-images.githubusercontent.com/78246787/144193615-0732ad19-5555-4aa4-819d-e621cc988a26.jpg)
