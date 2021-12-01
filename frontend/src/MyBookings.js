@@ -13,14 +13,18 @@ import {
 	Modal,
 } from "react-bootstrap";
 import { server_IP, server_PORT } from "./config/serverConfig.js";
+import NavbarComponent from "./Navbar.js";
 
 function MyBookings() {
 	console.log("Rendering");
 
 	const [bookings, setBookings] = useState([]);
-	const [modifySeats, setModifySeats] = useState(false);
+	const [modifySeats, setModifySeats] = useState("");
 	const [availableSeats, setAvailableSeats] = useState({});
 	const [customerDetails, setCustomerDetails] = useState({});
+
+	console.log(availableSeats);
+	console.log(bookings);
 
 	const fetchCustomerDetails = async (e) => {
 		try {
@@ -54,50 +58,6 @@ function MyBookings() {
 		console.log(flightIds);
 		setAvailableSeats(freeSeats);
 		setBookings(response.data);
-		// setBookings([
-		// 	{
-		// 		bookingId: "1",
-		// 		flightId: "243424242",
-		// 		flightName: "UA 295",
-		// 		duration: "5H 17M",
-		// 		departure: {
-		// 			city: "San Francisco",
-		// 			airport: "SFO",
-		// 			timestamp: "08:30 AM",
-		// 		},
-		// 		arrival: {
-		// 			city: "New York",
-		// 			airport: "NYC",
-		// 			timestamp: "04:48 PM",
-		// 		},
-		// 		price: 99,
-		// 		status: "Scheduled",
-		// 		seatNumber: "1B",
-		// 		passengerFirstName: "John",
-		// 		passengerLastName: "Doe",
-		// 	},
-		// 	{
-		// 		bookingId: "2",
-		// 		flightId: "848239042",
-		// 		flightName: "UA 520",
-		// 		duration: "6H 02M",
-		// 		departure: {
-		// 			city: "San Francisco",
-		// 			airport: "SFO",
-		// 			timestamp: "06:35 AM",
-		// 		},
-		// 		arrival: {
-		// 			city: "New York",
-		// 			airport: "NYC",
-		// 			timestamp: "02:52 PM",
-		// 		},
-		// 		price: 119,
-		// 		status: "Cancelled",
-		// 		seatNumber: "4D",
-		// 		passengerFirstName: "Jane",
-		// 		passengerLastName: "Doe",
-		// 	},
-		// ]);
 	};
 
 	useEffect(() => {
@@ -111,14 +71,16 @@ function MyBookings() {
 				bookingId: e.target.id,
 				flightId: e.target.parentNode.id,
 				seatNumber: e.target.title,
+				cid: localStorage.getItem("customerId"),
 			};
 			console.log("Sending payload to cancel booking", payload);
 			const response = await axios.put(
 				`http://${server_IP}:${server_PORT}/myBookings/cancelBooking`,
 				payload
 			);
-			console.log(response);
+			console.log("Response after cancelling booking: ", response);
 			fetchAllBookings();
+			fetchCustomerDetails();
 		} catch (err) {
 			console.error(err);
 		}
@@ -162,8 +124,14 @@ function MyBookings() {
 		// const availableSeats = getAvailableSeats(flightId);
 		return (
 			<>
-				<Form.Select id={flightId} onChange={updateBooking}>
+				<Form.Select
+					id={flightId}
+					onChange={updateBooking}
+					value="Select seat"
+				>
 					<option>Select seat</option>
+					{console.log(flightId)}
+					{console.log(availableSeats[flightId])}
 					{availableSeats[flightId].map(createOption)}
 				</Form.Select>
 			</>
@@ -172,6 +140,7 @@ function MyBookings() {
 	const createBookingRow = (row) => {
 		return (
 			<Row className="m-4">
+				{/* {console.log(row.flightId, row._id)} */}
 				<Card>
 					<Card.Header>
 						<Row>
@@ -203,17 +172,24 @@ function MyBookings() {
 							<Col xs={4}>
 								<Row>
 									<Col>
-										<Button
-											variant="dark"
-											onClick={() =>
-												setModifySeats(!modifySeats)
-											}
-										>
-											Change seats
-										</Button>
+										{row.bookingStatus.toLowerCase() ===
+										"booked" ? (
+											<Button
+												variant="dark"
+												onClick={() =>
+													setModifySeats(row._id)
+												}
+											>
+												Change seats
+											</Button>
+										) : (
+											<Button variant="dark" disabled>
+												Change seats
+											</Button>
+										)}
 									</Col>
 									<Col id={row._id} title={row.seatNumber}>
-										{modifySeats
+										{modifySeats === row._id
 											? renderModifySeats(row.flightId)
 											: ""}
 									</Col>
@@ -249,6 +225,7 @@ function MyBookings() {
 	};
 	return (
 		<div className="m-5">
+			<NavbarComponent />
 			<Container style={{ display: "flex", flexDirection: "column" }}>
 				<Row className="display-6 mt-2 mb-5">
 					<Col xs={4}>Hello, {customerDetails.name}</Col>
@@ -261,7 +238,9 @@ function MyBookings() {
 					<Col xs={8}>My Bookings</Col>
 					<Col xs={4}></Col>
 				</Row>
-				{bookings ? bookings.map(createBookingRow) : ""}
+				{typeof bookings !== "string"
+					? bookings.map(createBookingRow)
+					: ""}
 			</Container>
 		</div>
 	);

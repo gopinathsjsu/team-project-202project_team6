@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Container, Button, Form, Row, Col, Card } from "react-bootstrap";
 import { server_IP, server_PORT } from "./config/serverConfig.js";
+import NavbarComponent from "./Navbar.js";
 
 function Dashboard() {
 	console.log("Rendering");
@@ -12,13 +13,16 @@ function Dashboard() {
 	const [flights, setFlights] = useState([]);
 	const [departureAirports, setDepartureAirports] = useState([]);
 	const [arrivalAirports, setArrivalAirports] = useState([]);
-	console.log(depAirport, arrAirport);
+	const [errorMsg, setErrorMsg] = useState("");
+
+	console.log("Flights: ", flights);
+
 	const fetchAirports = async () => {
 		try {
 			const response = await axios.get(
 				`http://${server_IP}:${server_PORT}/dashboard`
 			);
-			console.log(response.data);
+			console.log("Fetched airports: ", response.data);
 			let dep = [];
 			let arr = [];
 			for (let i = 0; i < response.data.length; i++) {
@@ -52,7 +56,16 @@ function Dashboard() {
 				payload
 			);
 			console.log(response);
-			setFlights(response.data);
+			if (typeof response.data !== "string") {
+				console.log(response.data);
+				console.log(typeof response.data);
+				setFlights(response.data);
+			} else {
+				setErrorMsg(
+					"No flights available at the moment. Please search again"
+				);
+				setFlights([]);
+			}
 			// setFlights([
 			// 	{
 			// 		id: "243424242",
@@ -132,6 +145,7 @@ function Dashboard() {
 	};
 	return (
 		<div className="m-5">
+			<NavbarComponent />
 			<Container style={{ display: "flex", flexDirection: "column" }}>
 				<Row className="display-6 mt-3 mb-1">Check flights</Row>
 				<Row className="my-5 h4">
@@ -144,6 +158,7 @@ function Dashboard() {
 										setDepAirport(e.target.value)
 									}
 								>
+									<option>Select departure airport</option>
 									{departureAirports.map((airport) => {
 										return <option>{airport}</option>;
 									})}
@@ -157,6 +172,7 @@ function Dashboard() {
 										setArrAirport(e.target.value)
 									}
 								>
+									<option>Select arrival airport</option>
 									{arrivalAirports.map((airport) => {
 										return <option>{airport}</option>;
 									})}
@@ -190,7 +206,11 @@ function Dashboard() {
 						</Row>
 					</Form>
 				</Row>
-				{flights.map(createFlightRow)}
+				{dateOfTravel
+					? flights.length
+						? flights.map(createFlightRow)
+						: errorMsg
+					: ""}
 			</Container>
 		</div>
 	);

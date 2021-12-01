@@ -13,6 +13,7 @@ import EmployeeDashboard from "./EmployeeDashboard";
 import MyBookings from "./MyBookings";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import NavbarComponent from "./Navbar";
 
 function App() {
 	return (
@@ -41,8 +42,11 @@ function App() {
 						<MyBookings />
 					</Route>
 					<Route path="/">
-						<AddFlights />
+						<NavbarComponent />
 					</Route>
+					{/* <Route path="/">
+						<AddFlights />
+					</Route> */}
 				</Switch>
 			</div>
 		</Router>

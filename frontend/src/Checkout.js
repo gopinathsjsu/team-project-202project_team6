@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory, Link, useLocation } from "react-router-dom";
 import { Container, Button, Form, Row, Col, Card } from "react-bootstrap";
 import { server_IP, server_PORT } from "./config/serverConfig.js";
+import NavbarComponent from "./Navbar.js";
 
 function Checkout() {
 	// const history = useHistory();
@@ -17,7 +18,7 @@ function Checkout() {
 	});
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
-	const [mileagePoints, setMileagePoints] = useState(30);
+	const [mileagePoints, setMileagePoints] = useState(0);
 	const [seatPreference, setSeatPreference] = useState("");
 	const [useMileagePoints, setUseMileagePoints] = useState(false);
 
@@ -95,7 +96,11 @@ function Checkout() {
 					(useMileagePoints ? mileagePoints / 10 : 0),
 				passengerFirstName: firstName,
 				passengerLastName: lastName,
-				mileagePointsUsed: useMileagePoints ? mileagePoints : 0,
+				mileagePointsUsed: useMileagePoints
+					? Math.min(flightDetails.price * 10, mileagePoints)
+					: 0,
+				currentMileagePoints: mileagePoints,
+				miles: flightDetails.miles,
 			};
 			console.log(payload);
 			const response = await axios.post(
@@ -110,6 +115,7 @@ function Checkout() {
 	};
 	return (
 		<div className="m-5">
+			<NavbarComponent />
 			<Container style={{ display: "flex", flexDirection: "column" }}>
 				<Row className="display-6 mt-3 mb-1">
 					Checkout flight booking
@@ -231,10 +237,13 @@ function Checkout() {
 								/>
 								<Form.Label className="mt-5">
 									Total amount due: $
-									{flightDetails.price -
-										(useMileagePoints
-											? mileagePoints / 10
-											: 0)}
+									{Math.max(
+										0,
+										flightDetails.price -
+											(useMileagePoints
+												? mileagePoints / 10
+												: 0)
+									)}
 								</Form.Label>
 							</Form.Group>
 							<Button
