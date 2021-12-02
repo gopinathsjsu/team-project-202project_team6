@@ -48,16 +48,20 @@ function MyBookings() {
 		);
 		console.log(response);
 		let freeSeats = {};
-		const flightIds = [...new Set(response.data.map((x) => x.flightId))];
-		for (let i = 0; i < flightIds.length; i++) {
-			const res = await axios.get(
-				`http://${server_IP}:${server_PORT}/checkout/flightDetails?id=${flightIds[i]}`
-			);
-			freeSeats[flightIds[i]] = res.data.seatsAvailable;
+		if (typeof response.data !== "string") {
+			const flightIds = [
+				...new Set(response.data.map((x) => x.flightId)),
+			];
+			for (let i = 0; i < flightIds.length; i++) {
+				const res = await axios.get(
+					`http://${server_IP}:${server_PORT}/checkout/flightDetails?id=${flightIds[i]}`
+				);
+				freeSeats[flightIds[i]] = res.data.seatsAvailable;
+			}
+			console.log(flightIds);
+			setAvailableSeats(freeSeats);
+			setBookings(response.data);
 		}
-		console.log(flightIds);
-		setAvailableSeats(freeSeats);
-		setBookings(response.data);
 	};
 
 	useEffect(() => {
