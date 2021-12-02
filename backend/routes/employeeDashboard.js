@@ -61,13 +61,13 @@ router.post("/addNewFlight", (req, res) => {
 });
 
 async function revertMileagePoints(flightId) {
+  const customerArray = await Booking.find(
+    { flightId: flightId, bookingStatus: { $nin: ["cancelled"] } },
+    { customerId: 1, mileagePointsUsed: 1, _id: 0 }
+  );
   await Booking.updateMany(
     { flightId: flightId },
     { $set: { flightStatus: "cancelled", bookingStatus: "cancelled" } }
-  );
-  const customerArray = await Booking.find(
-    { flightId: flightId },
-    { customerId: 1, mileagePointsUsed: 1, _id: 0 }
   );
   if (customerArray.length === 0) {
     return;
@@ -90,14 +90,18 @@ async function revertMileagePoints(flightId) {
   return;
 }
 
-router.put("/updateFlightStatus", (req, res) => {
+router.put("/updateFlightStatus", async (req, res) => {
   const flightId = req.body.id;
   const newStatus = req.body.newStatus;
   if (newStatus === "cancelled") {
     revertMileagePoints(flightId);
+  } else {
+    await Booking.updateMany(
+      { flightId: flightId, bookingStatus: { $nin: ["cancelled"] } },
+      { $set: { flightStatus: "completed", bookingStatus: "completed" } }
+    );
   }
-
-  Flight.updateOne(
+  await Flight.updateOne(
     { _id: flightId },
     { status: newStatus },
     { useFindAndModify: false },
