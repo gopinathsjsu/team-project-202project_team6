@@ -90,14 +90,18 @@ async function revertMileagePoints(flightId) {
   return;
 }
 
-router.put("/updateFlightStatus", (req, res) => {
+router.put("/updateFlightStatus", async (req, res) => {
   const flightId = req.body.id;
   const newStatus = req.body.newStatus;
   if (newStatus === "cancelled") {
     revertMileagePoints(flightId);
+  } else {
+    await Booking.updateMany(
+      { flightId: flightId, bookingStatus: { $nin: ["cancelled"] } },
+      { $set: { flightStatus: "completed", bookingStatus: "completed" } }
+    );
   }
-
-  Flight.updateOne(
+  await Flight.updateOne(
     { _id: flightId },
     { status: newStatus },
     { useFindAndModify: false },
