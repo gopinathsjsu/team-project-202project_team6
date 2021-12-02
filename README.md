@@ -83,7 +83,7 @@ npm run build
 
 
 # Component Diagram:
-![Untitled Diagram](https://user-images.githubusercontent.com/78246787/144193615-0732ad19-5555-4aa4-819d-e621cc988a26.jpg)
+![Component Diagram](https://user-images.githubusercontent.com/78246787/144387676-0c29c901-9d3d-45ce-a763-bb67c8607119.jpg)
 
 # Deployment Diagram:
 ![Untitled Diagram](https://user-images.githubusercontent.com/78246787/144354606-ee5293d2-2bdb-456c-bd0f-cb09aba004d8.jpg)
