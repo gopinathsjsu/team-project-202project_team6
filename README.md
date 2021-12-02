@@ -22,6 +22,17 @@ Every Friday
 - Database: Shaunak Bhatlawande, Tejas Mahajan, Ishan Kanungo
 - Deployment: Jash Sheth
 
+## XP core values Implemented:
+Shaunak Anirudha Bhatlawande - Communication
+
+Tejas Mahajan - Courage
+
+Jash Seth - Simplicity
+
+Ishan Kanungo - Feedback
+
+https://github.com/gopinathsjsu/team-project-202project_team6/blob/master/XP%20Values.md 
+
 ## Steps to start the application:
 1. Clone the repository
 ```
