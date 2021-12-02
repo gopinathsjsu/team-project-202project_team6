@@ -6,7 +6,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(cors());
+app.use(cors({ origin: "http://54.193.2.75:3000", credentials: true }));
 const bcrypt = require("bcrypt");
 
 // const people = []
