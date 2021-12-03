@@ -89,4 +89,4 @@ npm run build
 ![Untitled Diagram](https://user-images.githubusercontent.com/78246787/144354606-ee5293d2-2bdb-456c-bd0f-cb09aba004d8.jpg)
 
 # Wire-frame:
-https://github.com/gopinathsjsu/team-project-202project_team6/blob/master/Wireframe.pdf
+https://github.com/gopinathsjsu/team-project-202project_team6/blob/master/Documents/Wireframe.pdf
