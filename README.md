@@ -35,7 +35,7 @@ Ishan Kanungo - Feedback
 https://github.com/gopinathsjsu/team-project-202project_team6/blob/master/XP%20Values.md 
 
 # Architecture Diagram:
-![202_Architecture5](https://user-images.githubusercontent.com/78246787/144181838-da7f2edf-e979-4516-a89c-092a6243614f.jpg)
+![architectural diagram new](https://user-images.githubusercontent.com/78246787/144531320-d128f997-7fbb-45f7-b69d-657249b835f1.png)
 
 # Design Decisions:
 
