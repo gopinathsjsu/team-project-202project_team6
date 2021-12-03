@@ -32,7 +32,7 @@ Jash Seth - Simplicity
 
 Ishan Kanungo - Feedback
 
-https://github.com/gopinathsjsu/team-project-202project_team6/blob/master/XP%20Values.md 
+https://github.com/gopinathsjsu/team-project-202project_team6/blob/master/Documents/Wireframe.pdf
 
 # Architecture Diagram:
 ![architectural diagram new](https://user-images.githubusercontent.com/78246787/144531320-d128f997-7fbb-45f7-b69d-657249b835f1.png)
