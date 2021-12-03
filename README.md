@@ -43,9 +43,6 @@ https://github.com/gopinathsjsu/team-project-202project_team6/blob/master/Docume
 1. MERN stack
 2. Seperate deployment environments for frontend and backend applications.
 
-## Application Design-level:
-1. Leveraging nodeJS and Express design patterns to design APIs. These design patterns helped us add new APIs relatively easily.
-
 ## Business-level:
 Below are the decisions/use cases considered for features provided by the Airlines reservatation system:
 
